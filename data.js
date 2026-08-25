@@ -37,7 +37,7 @@
       { id: 'normal',   label: '일반 (감경 없음)',                     home: 0.15, facility: 0.20 },
       { id: 'reduce40', label: '40% 감경 대상 (보험료 순위 25~50%)',   home: 0.09, facility: 0.12 },
       { id: 'reduce60', label: '60% 감경 대상 (보험료 순위 0~25%)',    home: 0.06, facility: 0.08 },
-      { id: 'exempt',   label: '본인부담 면제 (의료급여 수급자)',       home: 0,    facility: 0 }
+      { id: 'exempt',   label: '본인부담 면제 (의료급여법 제3조제1항제1호 수급자)', home: 0, facility: 0 }
     ],
 
     // 재가 서비스. unit: 'visit'(방문당) | 'day'(1일당)
