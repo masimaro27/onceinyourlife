@@ -82,6 +82,12 @@
   @media (max-width: 420px) {
     .seg button { min-width: 30%; }
   }
+  .other-tool {
+    display: block; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+    text-decoration: none; color: var(--ink);
+  }
+  .other-tool strong { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -134,6 +140,11 @@
     <h2>계산 결과</h2>
     <div id="resultBody"></div>
   </section>
+
+  <a class="other-tool" href="silup/">
+    <strong>실업급여 계산기 →</strong>
+    <div class="hint">퇴직을 앞두고 있다면 구직급여도 하루 얼마·며칠치인지 계산해 보세요.</div>
+  </a>
 
   <footer>
     <p><strong>이 계산기는 참고용 추정치입니다.</strong> 실제 금액은 기관 계약 조건과
