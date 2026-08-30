@@ -34,8 +34,19 @@ Scope: 루트 `/`가 장기요양 계산기라 사이트에 홈페이지가 없�
   EXPECT: adsense suite verification passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; path=f681d46c4e3d/27 entries; output=adsense suite verification passed
 
-- [ ] H6: 배포 후 /, /longtermcare/, /silup/, /about/, /privacy/, /contact/ 6개가 200이고 각 페이지 내용이 의도대로 서빙된다
+- [x] H6: 배포 후 /, /longtermcare/, /silup/, /about/, /privacy/, /contact/ 6개가 200이고 각 페이지 내용이 의도대로 서빙된다
   CHECK: node scripts/check-deployed.mjs
   EXPECT: deployment verification passed
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; output=deployment verification passed — Pages build cf8dba5 status=built; /, /longtermcare/, /silup/, /about/, /privacy/, /contact/ 6개 전부 200 + 제목·기대 문구 일치; /assets/site.css 200; 존재하지 않는 경로 200 아님(양성 대조군)
 
-- [ ] H7: 4-pass 개선 루프 마지막 회차에서 신규 발견 0건
+- [x] H7: 4-pass 개선 루프 마지막 회차에서 신규 발견 0건
+  EVIDENCE: 1회차 발견 3건 —
+    [중요] silup/scripts/ui_check.py:68이 `a[href="../"]`로 루트 계산기 링크를 검사하고 있어
+           이동으로 깨짐. 셀렉터를 /longtermcare/로 갱신. 이어 푸터 nav 확장으로 링크가 2개가 되어
+           `== 1` 단언이 다시 깨져 `>= 1`(존재 검사)로 완화 — 원래 의도는 "링크가 있는가"였음.
+    [중요] 위 검사가 어느 스위트에도 없어 놓칠 뻔함. check-adsense-suite.mjs에 silup UI·고지문구를
+           추가해 회귀 커버리지 공백을 메움.
+    [사소] 홈페이지가 생겼는데 도구 2개에 상단 홈 링크가 없어 내비게이션이 단방향이었음. 양쪽에 추가.
+  2회차 재독 — 6개 페이지 390px 일괄 확인(전부 200, overflow=0px, navLinks=6, 홈링크 존재, JS 에러 0),
+  ltc/adsense 스위트 및 home·links 검증 전부 통과. 신규 발견 0건으로 수렴.
+  범위 밖으로 남김: robots.txt / sitemap.xml / 404 페이지 부재 (홈페이지가 생겨 sitemap 가치가 올라감).
