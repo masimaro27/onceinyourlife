@@ -14,6 +14,7 @@ const NGRAM_MAX = 20.0;     // 12자 n-gram 중복률 상한(%)
 const PAIRS = [
   ['longtermcare/guide/monthly-limit/index.html', ['6_장기요양등급혜택']],
   ['longtermcare/guide/copay-rate/index.html', ['6_장기요양등급혜택']],
+  ['longtermcare/guide/home-vs-facility/index.html', ['6_장기요양등급혜택', '7_요양원등급']],
 ];
 
 let failed = 0;
