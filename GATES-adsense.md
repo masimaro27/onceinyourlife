@@ -43,9 +43,10 @@ ads.txt를 추가하고, 기존 도구 2개와 상호 링크해 사이트 구조
   EXPECT: ads.txt verification passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; path=f681d46c4e3d/27 entries; output=ads.txt verification passed
 
-- [ ] G8: 배포 후 실제 URL 5개가 200을 반환하고 신규 3종의 내용이 실제로 서빙된다
+- [x] G8: 배포 후 실제 URL 5개가 200을 반환하고 신규 3종의 내용이 실제로 서빙된다
   CHECK: node scripts/check-deployed.mjs
   EXPECT: deployment verification passed
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; output=deployment verification passed — Pages build b0bb9c1 status=built; /, /silup/, /about/, /privacy/, /contact/ 전부 200 + 기대 문구 일치; /assets/site.css 200; 자리표시자 미배포 확인; 존재하지 않는 경로 200 아님(양성 대조군)
 
 - [x] G9: 4-pass 개선 루프(전문가 재독·결함 사냥·폴리시) 마지막 회차에서 신규 발견 0건
   EVIDENCE: 1회차(2026-08-30) 발견 3건 —
