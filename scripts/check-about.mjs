@@ -13,7 +13,7 @@ for (const r of ['살면서 한 번은 겪는 일', '장기요양', '실업급�
 
 // 두 도구로 가는 본문 링크(푸터 nav 제외)가 실제로 존재하는지
 const body = doc.split('<footer>')[0];
-for (const [href, label] of [['href="/"', '장기요양 계산기'], ['href="/silup/"', '실업급여 계산기']]) {
+for (const [href, label] of [['href="/longtermcare/"', '장기요양 계산기'], ['href="/silup/"', '실업급여 계산기']]) {
   const links = [...body.matchAll(/<a class="other-tool" href="([^"]+)"[\s\S]*?<\/a>/g)];
   if (!links.some(m => `href="${m[1]}"` === href)) fail(`본문에 ${label} 카드 링크 없음 (${href})`);
 }

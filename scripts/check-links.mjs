@@ -4,8 +4,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = ['index.html', 'silup/index.html', 'about/index.html', 'privacy/index.html', 'contact/index.html'];
-const MUST = ['/', '/silup/', '/about/', '/privacy/', '/contact/'];
+const PAGES = ['index.html', 'longtermcare/index.html', 'silup/index.html', 'about/index.html', 'privacy/index.html', 'contact/index.html'];
+const MUST = ['/', '/longtermcare/', '/silup/', '/about/', '/privacy/', '/contact/'];
 let failed = 0;
 const fail = (m) => { failed++; console.error('FAIL ' + m); };
 

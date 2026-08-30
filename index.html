@@ -3,180 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>장기요양 본인부담금 계산기 — 등급별 월 비용 추정</title>
-<meta name="description" content="장기요양등급별로 방문요양·주야간보호 등 재가 서비스 조합이나 요양시설 입소 시 월 본인부담금을 추정해 봅니다. 2026년 고시 수가 기준.">
-<meta property="og:title" content="장기요양 본인부담금 계산기">
-<meta property="og:description" content="등급과 이용 계획을 고르면 월 본인부담금을 추정합니다. 2026년 고시 수가 기준.">
+<title>살면서 한 번은 겪는 일 — 행정·절차 계산기</title>
+<meta name="description" content="장기요양 본인부담금, 실업급여처럼 살면서 한 번은 겪는 절차를 숫자로 미리 가늠해 보는 계산기 모음. 법령·고시 원문을 근거로 만듭니다.">
+<meta property="og:title" content="살면서 한 번은 겪는 일">
+<meta property="og:description" content="처음 겪는 행정·절차를 숫자로 미리 가늠해 봅니다. 장기요양 본인부담금, 실업급여 계산기.">
 <meta property="og:type" content="website">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-  :root {
-    --ink: #222; --sub: #666; --line: #e3e3e3;
-    --accent: #2a78d6; --warn: #eb6834; --bg: #f7f8fa; --card: #fff;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-    line-height: 1.55; -webkit-text-size-adjust: 100%;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
-  header h1 { font-size: 1.45rem; margin: 0 0 6px; }
-  header p { color: var(--sub); margin: 0 0 20px; font-size: .95rem; }
-  section.card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-    padding: 16px; margin-bottom: 14px;
-  }
-  h2 { font-size: 1.02rem; margin: 0 0 10px; }
-  h2 .step { color: var(--accent); margin-right: 6px; }
-  .seg { display: flex; flex-wrap: wrap; gap: 8px; }
-  .seg button {
-    flex: 1 1 auto; min-width: 88px; padding: 10px 6px; font-size: .95rem;
-    border: 1px solid var(--line); border-radius: 8px; background: #fff; cursor: pointer;
-  }
-  .seg button.on { border-color: var(--accent); background: #eef4fc; color: var(--accent); font-weight: 700; }
-  .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-  .tabs button {
-    flex: 1; padding: 10px; font-size: 1rem; border: 1px solid var(--line);
-    border-radius: 8px; background: #fff; cursor: pointer;
-  }
-  .tabs button.on { border-color: var(--accent); background: var(--accent); color: #fff; font-weight: 700; }
-  .svc { border-top: 1px solid var(--line); padding: 12px 0; }
-  .svc:first-of-type { border-top: 0; }
-  .svc .name { font-weight: 700; margin-bottom: 6px; }
-  .svc .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .svc select, .svc input[type=number], #facilitySelect, #facilityDays, #burdenSelect {
-    padding: 9px 8px; font-size: .95rem; border: 1px solid var(--line); border-radius: 8px;
-    background: #fff; max-width: 100%;
-  }
-  .svc select { flex: 1 1 200px; min-width: 0; }
-  .svc input[type=number] { width: 90px; }
-  .svc .unit-note, .hint { color: var(--sub); font-size: .85rem; margin-top: 4px; }
-  .svc.disabled { opacity: .55; }
-  .svc.disabled .why { color: var(--warn); font-size: .85rem; }
-  #facilitySelect { width: 100%; margin-bottom: 8px; }
-  #burdenSelect { width: 100%; }
-  .result {
-    background: var(--card); border: 2px solid var(--accent); border-radius: 12px;
-    padding: 16px; margin-bottom: 14px;
-  }
-  .result h2 { color: var(--accent); }
-  .rline { display: flex; justify-content: space-between; padding: 4px 0; font-size: .97rem; }
-  .rline.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 10px; }
-  .rline.copay { font-size: 1.25rem; font-weight: 800; }
-  .rline.copay .val { color: var(--warn); }
-  .gauge { height: 10px; background: #eee; border-radius: 5px; overflow: hidden; margin: 8px 0 2px; }
-  .gauge .bar { height: 100%; background: var(--accent); width: 0; }
-  .gauge .bar.over { background: var(--warn); }
-  .warn-box {
-    background: #fdf1ec; border: 1px solid var(--warn); border-radius: 8px;
-    padding: 10px 12px; font-size: .9rem; margin-top: 10px; color: #7a3417;
-  }
-  .lines { margin: 8px 0 0; padding: 0; list-style: none; font-size: .9rem; color: var(--sub); }
-  .lines li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
-  footer {
-    font-size: .84rem; color: var(--sub); border-top: 1px solid var(--line);
-    padding-top: 14px; margin-top: 20px;
-  }
-  footer ul { padding-left: 18px; margin: 8px 0; }
-  footer a { color: var(--accent); word-break: break-all; }
-  @media (max-width: 420px) {
-    .seg button { min-width: 30%; }
-  }
-  .other-tool {
+  .hero { padding: 8px 0 4px; }
+  .hero h1 { font-size: 1.6rem; margin: 0 0 10px; line-height: 1.35; }
+  .hero p { color: var(--sub); margin: 0 0 6px; font-size: .97rem; }
+  .tools { display: grid; gap: 12px; margin-bottom: 14px; }
+  .tool {
     display: block; background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
-    text-decoration: none; color: var(--ink);
+    border-radius: 12px; padding: 16px 18px; text-decoration: none; color: var(--ink);
   }
-  .other-tool strong { color: var(--accent); }
-  footer nav.sitenav { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
-  footer nav.sitenav a { margin-right: 10px; display: inline-block; word-break: keep-all; }
-
+  .tool:hover { border-color: var(--accent); }
+  .tool .name { color: var(--accent); font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+  .tool .desc { font-size: .92rem; margin-bottom: 8px; }
+  .tool .basis { color: var(--sub); font-size: .82rem; }
+  .soon {
+    background: var(--card); border: 1px dashed var(--line); border-radius: 12px;
+    padding: 14px 18px; color: var(--sub); font-size: .9rem; margin-bottom: 14px;
+  }
+  .soon strong { color: var(--ink); }
+  .principles li { margin-bottom: 7px; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>장기요양 본인부담금 계산기</h1>
-    <p>등급과 이용 계획을 고르면 월 급여비용과 본인부담금을 추정합니다.
-       2026년 1월 1일 기준 고시 수가로 계산합니다.</p>
+  <header class="hero">
+    <h1>살면서 한 번은 겪는 일</h1>
+    <p>부모님 요양, 갑작스러운 퇴직 — 살면서 한 번은 겪지만 겪을 때마다 처음인 일들이 있습니다.</p>
+    <p>그때 가장 먼저 궁금한 <strong>“그래서 얼마인가”</strong>를 계산기로 만들어 둡니다.</p>
   </header>
 
-  <section class="card">
-    <h2><span class="step">1.</span>장기요양등급</h2>
-    <div class="seg" id="gradeSeg"></div>
-    <p class="hint">등급은 장기요양인정서에 적혀 있습니다. 실제 이용 가능한 급여 종류도
-       인정서의 기재를 따릅니다.</p>
-  </section>
+  <div class="tools">
+    <a class="tool" href="/longtermcare/">
+      <div class="name">장기요양 본인부담금 계산기 →</div>
+      <div class="desc">등급과 이용 계획을 고르면 방문요양·주야간보호 등 재가 서비스 조합이나
+        요양시설 입소 시 <strong>월 본인부담금</strong>을 추정합니다.</div>
+      <div class="basis">2026년 1월 1일 고시 수가 기준</div>
+    </a>
+
+    <a class="tool" href="/silup/">
+      <div class="name">실업급여 계산기 →</div>
+      <div class="desc">퇴직을 앞두고 있다면 구직급여가 <strong>하루 얼마이고 며칠치</strong>인지,
+        총 얼마를 받게 되는지 계산합니다.</div>
+      <div class="basis">고용보험법·시행령 기준</div>
+    </a>
+  </div>
+
+  <div class="soon">
+    <strong>계산기를 하나씩 늘려갑니다.</strong> 직접 겪으면서 “이건 계산기가 있어야 한다” 싶었던
+    절차가 있으면 <a href="/contact/">알려주세요</a>.
+  </div>
 
   <section class="card">
-    <h2><span class="step">2.</span>이용 방식</h2>
-    <div class="tabs">
-      <button id="tabHome" class="on" type="button">재가 (집에서)</button>
-      <button id="tabFacility" type="button">시설 입소</button>
-    </div>
-
-    <div id="homePanel"></div>
-
-    <div id="facilityPanel" hidden>
-      <select id="facilitySelect"></select>
-      <div class="row">
-        <label>한 달 입소일수
-          <input id="facilityDays" type="number" min="0" max="31" value="30"> 일
-        </label>
-      </div>
-      <p class="hint">식사재료비·상급침실(1~2인실) 추가비용·이미용비는 비급여라서
-         이 계산에 포함되지 않으며 전액 본인부담입니다.</p>
-      <p class="hint" id="facilityUnavailable" hidden style="color:var(--warn)">
-         인지지원등급은 시설급여 수가가 고시표에 없어 계산할 수 없습니다.
-         이용 가능 여부는 장기요양인정서와 공단에 확인하세요.</p>
-    </div>
+    <h2>만들 때 지키는 것</h2>
+    <ul class="principles">
+      <li><strong>원문을 근거로 씁니다.</strong> 수치는 법령·고시·공단 안내 같은 1차 자료에서 가져옵니다.</li>
+      <li><strong>기준일을 밝힙니다.</strong> 수가와 상한액은 대체로 매년 바뀝니다. 어느 시점 기준인지 적어 둡니다.</li>
+      <li><strong>추정치라고 말합니다.</strong> 실제 금액은 기관 계약과 개인 사정에 따라 달라집니다.</li>
+      <li><strong>입력값을 가져가지 않습니다.</strong> 계산은 전부 브라우저 안에서만 이뤄집니다.</li>
+    </ul>
+    <p class="meta">자세한 이야기는 <a href="/about/">소개</a>에, 데이터 처리 방식은
+      <a href="/privacy/">개인정보처리방침</a>에 있습니다.</p>
   </section>
-
-  <section class="card">
-    <h2><span class="step">3.</span>본인부담 감경</h2>
-    <select id="burdenSelect"></select>
-    <p class="hint">잘 모르면 "일반"을 두세요. 감경·면제 대상 여부는
-       국민건강보험공단 통지서나 공단(1577-1000)에서 확인할 수 있습니다.</p>
-  </section>
-
-  <section class="result" id="resultCard">
-    <h2>계산 결과</h2>
-    <div id="resultBody"></div>
-  </section>
-
-  <a class="other-tool" href="silup/">
-    <strong>실업급여 계산기 →</strong>
-    <div class="hint">퇴직을 앞두고 있다면 구직급여도 하루 얼마·며칠치인지 계산해 보세요.</div>
-  </a>
 
   <footer>
     <nav class="sitenav">
-      <a href="/">장기요양 계산기</a>
+      <a href="/">홈</a>
+      <a href="/longtermcare/">장기요양 계산기</a>
       <a href="/silup/">실업급여 계산기</a>
       <a href="/about/">소개</a>
       <a href="/privacy/">개인정보처리방침</a>
       <a href="/contact/">문의</a>
     </nav>
-    <p><strong>이 계산기는 참고용 추정치입니다.</strong> 실제 금액은 기관 계약 조건과
-       급여 제공 내용에 따라 달라지며, 원단위 처리 방식에 따라 실제 청구액과 차이가
-       날 수 있습니다. 정확한 금액은 국민건강보험공단(<strong>1577-1000</strong>)과
-       이용할 기관에서 확인하세요.</p>
-    <ul>
-      <li>수가 기준일 <strong>2026년 1월 1일</strong> · 원문 확인일 2026년 8월 24일.
-          수가는 매년 바뀝니다.</li>
-      <li>식사재료비·상급침실 추가비용·이미용비 등 <strong>비급여 항목은 포함되지 않습니다.</strong></li>
-      <li>재가급여 월 한도액을 초과한 금액은 전액 본인부담입니다
-          (장기요양 가족휴가제 등 법정 예외가 있습니다).</li>
-      <li>같은 시간에 두 가지 이상 재가급여를 받을 수 없습니다
-          (방문목욕+방문간호, 방문요양+방문간호는 부득이한 경우 예외).</li>
-      <li>인지활동형 방문요양·복지용구는 이 계산기에서 다루지 않습니다.</li>
-    </ul>
-    <p>출처:</p>
-    <ul id="sourceList"></ul>
+    <p>살면서 한 번은 겪는 일 · onceinyourlife.co.kr</p>
+    <p>개별 사안에 대한 법률·행정 상담은 하지 않습니다. 정확한 금액과 자격 판단은 관할 기관에서 확인하세요.</p>
   </footer>
 </div>
-<script src="data.js"></script>
-<script src="calc.js"></script>
-<script src="app.js"></script>
 </body>
 </html>

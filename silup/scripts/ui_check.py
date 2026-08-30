@@ -64,8 +64,9 @@ with sync_playwright() as p:
     early = page.locator("#earlyBody").inner_text()
     check("early.short", "받지 못합니다" in early, early[:200])
 
-    # 장기요양 계산기로 가는 링크
-    check("crosslink", page.locator('a[href="../"]').count() == 1)
+    # 장기요양 계산기로 가는 링크 (2026-08-30 홈페이지 신설로 루트 → /longtermcare/ 이동)
+    check("crosslink", page.locator('a[href="/longtermcare/"]').count() >= 1,
+          "장기요양 계산기 링크 없음")
 
     # 모바일 390px: 가로 넘침 없음
     page.set_viewport_size({"width": 390, "height": 844})

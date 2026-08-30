@@ -1,11 +1,12 @@
 // G8 — 배포된 실제 URL이 200이고 신규 페이지 내용이 서빙되는지 검증
 const BASE = 'https://onceinyourlife.co.kr';
 const TARGETS = [
-  ['/',         '장기요양 본인부담금 계산기'],
-  ['/silup/',   '실업급여 계산기'],
-  ['/about/',   '살면서 한 번은 겪는 일'],
-  ['/privacy/', '개인정보 보호책임자'],
-  ['/contact/', '오류 제보에 함께 적어주시면'],
+  ['/',              '살면서 한 번은 겪는 일'],
+  ['/longtermcare/', '장기요양 본인부담금 계산기'],
+  ['/silup/',        '실업급여 계산기'],
+  ['/about/',        '개인이 만들고 운영'],
+  ['/privacy/',      '개인정보 보호책임자'],
+  ['/contact/',      '오류 제보에 함께 적어주시면'],
 ];
 let failed = 0;
 const fail = (m) => { failed++; console.error('FAIL ' + m); };
@@ -20,7 +21,7 @@ for (const [path, token] of TARGETS) {
   const html = await res.text();
   if (!html.includes(token)) fail(`${path}: 기대 문구 없음 — "${token}" (배포 반영 전일 수 있음)`);
   // 푸터 내비게이션이 실제 서빙본에 있는지
-  for (const href of ['/about/', '/privacy/', '/contact/'])
+  for (const href of ['/longtermcare/', '/silup/', '/about/', '/privacy/', '/contact/'])
     if (!html.includes(`href="${href}"`)) fail(`${path}: 서빙본 푸터에 ${href} 없음`);
   // 센티넬이 배포되지 않았는지
   if (html.includes('__CONTACT_' + 'EMAIL__')) fail(`${path}: 자리표시자가 배포됨`);

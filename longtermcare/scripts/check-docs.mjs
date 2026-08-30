@@ -4,7 +4,8 @@ import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+// 이동 후 저장소 루트는 두 단계 위 (longtermcare/scripts → repo)
+const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const docs = [
   'docs/specs/2026-08-26-ltc-copay-calculator-design.md',
   'PLAN.md',
