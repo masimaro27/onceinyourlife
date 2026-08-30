@@ -27,6 +27,18 @@ for (const [path, token] of TARGETS) {
   if (html.includes('__CONTACT_' + 'EMAIL__')) fail(`${path}: 자리표시자가 배포됨`);
 }
 
+// robots.txt / sitemap.xml 이 서빙되고 내용이 맞는지
+for (const [path, token] of [['/robots.txt', 'Sitemap: https://onceinyourlife.co.kr/sitemap.xml'],
+                             ['/sitemap.xml', '<loc>https://onceinyourlife.co.kr/</loc>']]) {
+  try {
+    const r = await fetch(BASE + path, { signal: AbortSignal.timeout(20000) });
+    if (r.status !== 200) { fail(`${path}: status=${r.status}`); continue; }
+    const body = await r.text();
+    if (!body.includes(token)) fail(`${path}: 기대 내용 없음 — "${token}"`);
+    if (path === '/robots.txt' && /^\s*Disallow:\s*\/\s*$/m.test(body)) fail('/robots.txt: 사이트 전체를 차단하고 있음');
+  } catch (e) { fail(`${path}: 요청 실패 — ${e.message}`); }
+}
+
 // 공통 스타일시트가 200으로 서빙되는지
 try {
   const css = await fetch(BASE + '/assets/site.css', { signal: AbortSignal.timeout(20000) });

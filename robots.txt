@@ -1,0 +1,19 @@
+# onceinyourlife.co.kr
+# GitHub Pages가 저장소 전체를 서빙하므로, 콘텐츠가 아닌 경로는 색인에서 제외한다.
+
+User-agent: *
+Allow: /
+Allow: /assets/
+
+# 검증 스크립트·테스트·설계 문서 — 사람이 읽는 콘텐츠가 아님
+Disallow: /scripts/
+Disallow: /docs/
+Disallow: /longtermcare/scripts/
+Disallow: /longtermcare/test/
+Disallow: /silup/scripts/
+Disallow: /silup/test/
+Disallow: /*.md$
+Disallow: /*.mjs$
+Disallow: /*.py$
+
+Sitemap: https://onceinyourlife.co.kr/sitemap.xml
