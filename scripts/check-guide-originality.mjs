@@ -13,6 +13,7 @@ const NGRAM_MAX = 20.0;     // 12자 n-gram 중복률 상한(%)
 // 글 → 대조할 블로그 원문 (설계 문서의 재료 매핑)
 const PAIRS = [
   ['longtermcare/guide/monthly-limit/index.html', ['6_장기요양등급혜택']],
+  ['longtermcare/guide/copay-rate/index.html', ['6_장기요양등급혜택']],
 ];
 
 let failed = 0;
