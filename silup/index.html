@@ -8,65 +8,62 @@
 <meta property="og:title" content="실업급여 계산기">
 <meta property="og:description" content="구직급여일액과 소정급여일수로 총 예상 수령액을 계산합니다. 2026년 개정 상한액 반영.">
 <meta property="og:type" content="website">
+<link rel="stylesheet" href="/assets/tokens.css">
 <style>
-  :root {
-    --ink: #222; --sub: #666; --line: #e3e3e3;
-    --accent: #2a78d6; --warn: #eb6834; --bg: #f7f8fa; --card: #fff;
-  }
-  * { box-sizing: border-box; }
+    * { box-sizing: border-box; }
   body {
     margin: 0; background: var(--bg); color: var(--ink);
     font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
     line-height: 1.55; -webkit-text-size-adjust: 100%;
   }
   .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
-  header h1 { font-size: 1.45rem; margin: 0 0 6px; }
-  header p { color: var(--sub); margin: 0 0 20px; font-size: .95rem; }
+  header h1 { font-size: var(--fs-h1); margin: 0 0 6px; }
+  header p { color: var(--sub); margin: 0 0 20px; font-size: var(--fs-body); }
   section.card {
     background: var(--card); border: 1px solid var(--line); border-radius: 12px;
     padding: 16px; margin-bottom: 14px;
   }
-  h2 { font-size: 1.02rem; margin: 0 0 10px; }
+  h2 { font-size: var(--fs-h2); margin: 0 0 10px; }
   h2 .step { color: var(--accent); margin-right: 6px; }
   label.field { display: block; margin-bottom: 12px; }
-  label.field > span.lab { display: block; font-weight: 700; margin-bottom: 5px; font-size: .95rem; }
+  label.field > span.lab { display: block; font-weight: 700; margin-bottom: 5px; font-size: var(--fs-body); }
   input[type=date], input[type=number], select {
-    width: 100%; padding: 10px 8px; font-size: 1rem; border: 1px solid var(--line);
-    border-radius: 8px; background: #fff; max-width: 100%;
+    width: 100%; padding: 10px 8px; font-size: var(--fs-body); border: 1px solid var(--line);
+    border-radius: 8px; background: var(--card); max-width: 100%;
   }
   .seg { display: flex; flex-wrap: wrap; gap: 8px; }
   .seg button {
-    flex: 1 1 auto; min-width: 110px; padding: 10px 6px; font-size: .95rem;
-    border: 1px solid var(--line); border-radius: 8px; background: #fff; cursor: pointer;
+    flex: 1 1 auto; min-width: 110px; padding: 10px 6px; font-size: var(--fs-body);
+    border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer;
   }
-  .seg button.on { border-color: var(--accent); background: #eef4fc; color: var(--accent); font-weight: 700; }
-  .hint { color: var(--sub); font-size: .85rem; margin: 4px 0 0; }
+  .seg button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .hint { color: var(--sub); font-size: var(--fs-sm); margin: 4px 0 0; }
   .result {
     background: var(--card); border: 2px solid var(--accent); border-radius: 12px;
     padding: 16px; margin-bottom: 14px;
   }
   .result h2 { color: var(--accent); }
-  .rline { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: .97rem; }
+  .rline { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: var(--fs-body); }
   .rline.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 10px;
-    font-size: 1.25rem; font-weight: 800; }
+    font-size: var(--fs-h2); font-weight: 800; }
   .rline.total .val { color: var(--warn); }
   .badge {
-    display: inline-block; font-size: .8rem; font-weight: 700; padding: 2px 8px;
+    display: inline-block; font-size: var(--fs-xs); font-weight: 700; padding: 2px 8px;
     border-radius: 20px; margin-left: 6px; vertical-align: middle;
   }
-  .badge.cap { background: #fdf1ec; color: #a33f13; }
-  .badge.floor { background: #eef4fc; color: #1c5ba6; }
-  .badge.normal { background: #eef7ee; color: #2b6b2f; }
+  .badge.cap { background: var(--warn-bg); color: var(--warn); }
+  .badge.floor { background: var(--accent-soft); color: var(--accent); }
+  .badge.normal { background: var(--ok-bg); color: var(--ok); }
   .warn-box {
-    background: #fdf1ec; border: 1px solid var(--warn); border-radius: 8px;
-    padding: 10px 12px; font-size: .9rem; margin-top: 10px; color: #7a3417;
+    background: var(--warn-bg); border: 1px solid var(--warn); border-radius: 8px;
+    padding: 10px 12px; font-size: var(--fs-sm); margin-top: 10px; color: var(--warn-ink);
   }
   .info-box {
-    background: #eef4fc; border: 1px solid #b9d3f0; border-radius: 8px;
-    padding: 10px 12px; font-size: .9rem; margin-top: 10px; color: #1c4f8a;
+    background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 8px;
+    padding: 10px 12px; font-size: var(--fs-sm); margin-top: 10px; color: var(--accent);
   }
   details { margin-top: 12px; }
-  details summary { cursor: pointer; font-weight: 700; font-size: .95rem; }
+  details summary { cursor: pointer; font-weight: 700; font-size: var(--fs-body); }
   .other-tool {
     display: block; background: var(--card); border: 1px solid var(--line);
     border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
@@ -74,19 +71,28 @@
   }
   .other-tool strong { color: var(--accent); }
   footer {
-    font-size: .84rem; color: var(--sub); border-top: 1px solid var(--line);
+    font-size: var(--fs-sm); color: var(--sub); border-top: 1px solid var(--line);
     padding-top: 14px; margin-top: 20px;
   }
   footer ul { padding-left: 18px; margin: 8px 0; }
   footer a { color: var(--accent); word-break: break-all; }
-  table.mini { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 8px; }
+  table.mini { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); margin-top: 8px; }
   table.mini th, table.mini td { border: 1px solid var(--line); padding: 5px 6px; text-align: center; }
-  table.mini th { background: #f2f5f9; }
+  table.mini th { background: var(--th-bg); }
   .scroll-x { overflow-x: auto; }
-  footer nav.sitenav { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
-  footer nav.sitenav a { margin-right: 10px; display: inline-block; word-break: keep-all; }
+  footer nav.sitenav {
+    display: flex; flex-wrap: wrap; gap: 2px 4px;
+    margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  footer nav.sitenav a {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--tap); min-width: var(--tap); padding: 0 10px; margin: 0;
+    word-break: keep-all;
+  }
 
-  .home-link { display: inline-block; font-size: .85rem; color: var(--accent); text-decoration: none; margin-bottom: 12px; }
+  .home-link { display: inline-block; font-size: var(--fs-sm); color: var(--accent); text-decoration: none; margin-bottom: 12px; }
+
+  header p, .hint, footer p, .unit-note, section.card p, .result p { max-width: var(--measure); }
 
 </style>
 </head>
@@ -126,7 +132,7 @@
     <h2><span class="step">2.</span>나이와 가입기간</h2>
 
     <div style="margin-bottom:12px">
-      <span class="lab" style="display:block;font-weight:700;margin-bottom:5px;font-size:.95rem">퇴사 당시 만 나이</span>
+      <span class="lab" style="display:block;font-weight:700;margin-bottom:5px;font-size: var(--fs-body)">퇴사 당시 만 나이</span>
       <div class="seg" id="ageSeg"></div>
       <p class="hint">신청 시점이 아니라 <strong>퇴사한 시점</strong>의 만 나이입니다.</p>
     </div>

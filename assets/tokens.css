@@ -1,0 +1,75 @@
+/* 디자인 토큰 — 모든 페이지가 이 파일 하나를 링크한다.
+   여기서만 색과 크기를 정의하고, 다른 파일에는 리터럴을 두지 않는다.
+   근거: 2026-08-31 전면 진단 (GATES-design.md) */
+
+:root {
+  color-scheme: light dark;
+
+  /* 중립 */
+  --ink: #222;
+  --sub: #666;
+  --line: #e3e3e3;
+  --bg: #f7f8fa;
+  --card: #fff;
+  --th-bg: #f2f5f9;
+
+  /* 강조 — #2a78d6은 흰 배경에서 4.42:1로 AA 미달이라 어둡게 조정(5.61:1) */
+  --accent: #1b66c4;
+  --accent-ink: #fff;
+  --accent-soft: #eef4fc;
+  --accent-line: #b9d3f0;
+
+  /* 상태 — #eb6834는 3.20:1로 본문 크기에서 미달이라 조정(5.54:1) */
+  --warn: #b8401c;
+  --warn-bg: #fdf1ec;
+  --warn-line: #f6d3c4;
+  --warn-ink: #7a3417;
+  --ok: #2b6b2f;
+  --ok-bg: #eef7ee;
+
+  /* 타이포 — 6단계. 이 밖의 크기는 쓰지 않는다 */
+  --fs-h1: 1.75rem;
+  --fs-h2: 1.2rem;
+  --fs-h3: 1.05rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.8125rem;
+
+  /* 본문 최대폭 — em이라 요소 자기 폰트 기준으로 해석된다.
+     rem으로 두면 작은 글씨에서 한 줄 글자수가 늘어난다 */
+  --measure: 34em;
+  --wrap-max: 34rem;
+
+  /* 터치 타깃 최소 (WCAG 2.5.5) */
+  --tap: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e9eaee;
+    --sub: #a3a7b3;
+    --line: #33353d;
+    --bg: #15161a;
+    --card: #1e2027;
+    --th-bg: #252831;
+
+    --accent: #7db3f0;
+    --accent-ink: #0d1117;
+    --accent-soft: #1b2634;
+    --accent-line: #2f4a66;
+
+    --warn: #ff9e7a;
+    --warn-bg: #2b1c15;
+    --warn-line: #4a2e21;
+    --warn-ink: #ffbfa3;
+    --ok: #8fd39a;
+    --ok-bg: #17251a;
+  }
+}
+
+/* 키보드 포커스 — 브라우저 기본 outline은 강조 배경 위에서 보이지 않는다 */
+:where(a, button, select, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}

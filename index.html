@@ -8,23 +8,24 @@
 <meta property="og:title" content="살면서 한 번은 겪는 일">
 <meta property="og:description" content="처음 겪는 행정·절차를 숫자로 미리 가늠해 봅니다. 장기요양 본인부담금, 실업급여 계산기.">
 <meta property="og:type" content="website">
+<link rel="stylesheet" href="/assets/tokens.css">
 <link rel="stylesheet" href="/assets/site.css">
 <style>
   .hero { padding: 8px 0 4px; }
-  .hero h1 { font-size: 1.6rem; margin: 0 0 10px; line-height: 1.35; }
-  .hero p { color: var(--sub); margin: 0 0 6px; font-size: .97rem; }
+  .hero h1 { font-size: var(--fs-h1); margin: 0 0 10px; line-height: 1.35; }
+  .hero p { color: var(--sub); margin: 0 0 6px; font-size: var(--fs-body); }
   .tools { display: grid; gap: 12px; margin-bottom: 14px; }
   .tool {
     display: block; background: var(--card); border: 1px solid var(--line);
     border-radius: 12px; padding: 16px 18px; text-decoration: none; color: var(--ink);
   }
   .tool:hover { border-color: var(--accent); }
-  .tool .name { color: var(--accent); font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
-  .tool .desc { font-size: .92rem; margin-bottom: 8px; }
-  .tool .basis { color: var(--sub); font-size: .82rem; }
+  .tool .name { color: var(--accent); font-weight: 700; font-size: var(--fs-h3); margin-bottom: 4px; }
+  .tool .desc { font-size: var(--fs-sm); margin-bottom: 8px; }
+  .tool .basis { color: var(--sub); font-size: var(--fs-xs); }
   .soon {
     background: var(--card); border: 1px dashed var(--line); border-radius: 12px;
-    padding: 14px 18px; color: var(--sub); font-size: .9rem; margin-bottom: 14px;
+    padding: 14px 18px; color: var(--sub); font-size: var(--fs-sm); margin-bottom: 14px;
   }
   .soon strong { color: var(--ink); }
   .principles li { margin-bottom: 7px; }
