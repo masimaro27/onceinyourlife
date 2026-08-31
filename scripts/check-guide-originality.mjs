@@ -18,6 +18,7 @@ const PAIRS = [
   ['longtermcare/guide/over-limit/index.html', ['6_장기요양등급혜택']],
   ['longtermcare/guide/not-covered/index.html', ['6_장기요양등급혜택', '7_요양원등급']],
   ['silup/guide/how-it-works/index.html', ['2_실업급여계산']],
+  ['silup/guide/average-wage/index.html', ['2_실업급여계산']],
 ];
 
 let failed = 0;

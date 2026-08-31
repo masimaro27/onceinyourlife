@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>평균임금 3개월, 어느 3개월인가 — 실업급여 계산기 가이드</title>
+<meta name="description" content="실업급여 계산기가 이직일 하나로 평균임금 산정기간을 정하는 방식. 분모가 90일 고정이 아니라 실제 일수(89~92일)라서 같은 급여여도 퇴직일에 따라 총액이 달라지는 이유를 설명합니다.">
+<meta property="og:title" content="평균임금 3개월, 어느 3개월인가">
+<meta property="og:description" content="분모는 90일이 아닙니다. 같은 급여인데 퇴직일에 따라 총액이 35만원 갈립니다.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumb">
+    <a href="/silup/">← 실업급여 계산기</a>
+    <span aria-hidden="true">·</span>
+    <a href="/silup/guide/">가이드</a>
+  </nav>
+  <header>
+    <h1>평균임금 3개월, 어느 3개월인가</h1>
+    <p class="lead">계산기는 이직일 하나만 받고 3개월 구간을 스스로 정합니다.
+       그 구간의 <strong>길이가 매번 다르다</strong>는 것이 결과를 바꿉니다.</p>
+  </header>
+
+  <section class="prose">
+    <h2>어디부터 어디까지인가</h2>
+    <p>기간의 <strong>끝은 마지막 근무일 당일</strong>이고, 시작은 그로부터 3개월 전의 다음 날입니다.
+       계산기에 이직일을 넣으면 아래에 구간이 표시됩니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>이직일(마지막 근무일)</th><th>산정기간</th><th>총일수</th></tr></thead>
+        <tbody>
+          <tr><td>2026-05-01</td><td>2026-02-02 ~ 2026-05-01</td><td><strong>89일</strong></td></tr>
+          <tr><td>2026-03-31</td><td>2026-01-01 ~ 2026-03-31</td><td>90일</td></tr>
+          <tr><td>2026-06-30</td><td>2026-03-31 ~ 2026-06-30</td><td>92일</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>왜 마지막 근무일 <em>당일</em>까지냐면, 산정의 사유가 발생하는 날은 퇴직일이고
+       퇴직일은 마지막 근무일의 다음 날이기 때문입니다. 법이 보는 것은 그날
+       <strong>이전</strong>의 3개월이므로, 마지막 근무일까지가 구간 안에 들어옵니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>분모는 90일이 아닙니다</h2>
+    <p>여기가 이 글의 핵심입니다. 평균임금을 정한 조문은 이렇게 씁니다.</p>
+    <p><em>"산정하여야 할 사유가 발생한 날 이전 3개월 동안에 그 근로자에게 지급된 임금의 총액을
+       <strong>그 기간의 총일수</strong>로 나눈 금액"</em></p>
+    <p>"3개월"이 아니라 <strong>"그 기간의 총일수"</strong>입니다.
+       달마다 날수가 다르니 구간 길이도 달라집니다. 2026년으로 계산해 보면
+       <strong>89일에서 92일까지</strong> 네 가지가 나옵니다.</p>
+    <ul>
+      <li><strong>89일</strong> — 2월이 통째로 들어가는 5월 초 퇴직</li>
+      <li><strong>92일</strong> — 가장 흔합니다. 31일인 달이 둘 이상 낀 경우</li>
+    </ul>
+    <p>분모가 작을수록 평균임금이 커집니다. <strong>같은 돈을 받아도 짧은 기간에 받은 것이
+       하루치로는 더 큽니다.</strong></p>
+  </section>
+
+  <section class="prose">
+    <h2>같은 급여인데 퇴직일 때문에 35만원이 갈립니다</h2>
+    <p>3개월 임금이 1,020만원으로 똑같고, 50세 미만·가입기간 10년 이상(240일)인 경우입니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>이직일</th><th>총일수</th><th>평균임금</th><th>구직급여일액</th><th>총액</th></tr></thead>
+        <tbody>
+          <tr><td>2026-03-31</td><td>90일</td><td>113,333원</td><td>68,000원</td><td><strong>16,320,000원</strong></td></tr>
+          <tr><td>2026-06-30</td><td>92일</td><td>110,870원</td><td>66,521원</td><td>15,965,040원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>이틀 차이가 총액 <strong>354,960원</strong>을 만듭니다.</p>
+    <p class="meta">다만 오해는 마세요. 퇴직일을 이걸로 고르라는 뜻이 아닙니다.
+      상한이나 하한에 걸리는 대부분의 경우에는 이 차이가 결과에 나타나지 않습니다.
+      <a href="/silup/guide/how-it-works/">상·하한 폭이 2,052원뿐</a>이라 그 좁은 구간에 들어갈 때만
+      드러납니다. 알아둘 값어치가 있는 것은 <strong>계산기 숫자가 왜 예상과 다른지</strong>를
+      설명해 주기 때문입니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>계산기가 다루지 않는 두 가지</h2>
+    <p>평균임금 쪽에는 계산기가 반영하지 않는 보정이 둘 있습니다. 해당되면
+       <strong>계산기 결과보다 실제가 높아질 수 있습니다.</strong></p>
+    <ul>
+      <li><strong>통상임금 보정</strong> — 이렇게 구한 평균임금이 그 사람의 통상임금보다
+          적으면, 법은 <strong>통상임금을 평균임금으로</strong> 봅니다. 결근이 많았거나
+          무급휴직이 낀 기간이면 여기 걸릴 수 있습니다.</li>
+      <li><strong>3개월 안에 자격취득이 두 번 이상</strong>인 경우 — 이때는 산식이 달라집니다.
+          짧은 간격으로 이직을 반복한 경우입니다.</li>
+    </ul>
+    <p>둘 다 개인의 임금 구성과 이력을 봐야 판단할 수 있어 계산기가 자동으로 처리할 수
+       없습니다. 해당된다고 생각되면 고용센터에서 확인하세요.</p>
+  </section>
+
+  <section class="prose">
+    <h2>3개월 임금에 무엇을 넣나</h2>
+    <p>법은 <strong>그 기간에 지급된 임금의 총액</strong>이라고만 씁니다.
+       계산기도 총액 하나만 받습니다.</p>
+    <p>실무에서 갈리는 지점 — 상여금이나 연차수당처럼 여러 달에 걸친 항목을 어떻게 나눠
+       넣느냐 — 은 개별 판단이 필요한 영역이라 이 계산기가 정해 주지 않습니다.
+       <strong>급여명세서를 그대로 더한 값을 넣으시고,</strong> 결과는 대략의 자리를 잡는 데
+       쓰시는 편이 맞습니다.</p>
+    <p class="meta">산정기간이 표시되므로 <strong>어느 달의 명세서를 더해야 하는지</strong>는
+      계산기가 알려줍니다. 시작일이 달 중간이면 그 달도 포함해서 세시면 됩니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>계산기에서 확인해 보기</h2>
+    <ol>
+      <li>이직일을 넣으면 바로 아래에 산정기간과 총일수가 나옵니다.</li>
+      <li>그 구간에 걸친 급여명세서를 더해 3개월 임금에 넣습니다.</li>
+      <li>이직일을 하루씩 옮겨 보면 총일수가 바뀌는 것이 보입니다.</li>
+      <li>결과 배지가 상한·하한이면 총일수가 바뀌어도 금액은 그대로입니다.</li>
+    </ol>
+  </section>
+
+  <a class="other-tool" href="/silup/">
+    <strong>실업급여 계산기 →</strong>
+    <div class="hint">이직일을 넣으면 산정기간과 총일수를 함께 보여줍니다.</div>
+  </a>
+
+  <a class="other-tool" href="/silup/guide/how-it-works/">
+    <strong>구직급여는 이렇게 계산됩니다 →</strong>
+    <div class="hint">평균임금이 구직급여일액이 되기까지의 전체 경로입니다.</div>
+  </a>
+
+  <section class="card">
+    <h2>이 글의 기준</h2>
+    <ul>
+      <li>이직일 <strong>2026년</strong> 기준 · 원문 확인일 2026년 8월 28일</li>
+      <li>표의 금액은 50세 미만·가입기간 10년 이상·1일 8시간으로 계산기에서 산출한 값입니다</li>
+      <li>출처 — 근로기준법 제2조제1항제6호·제2항(평균임금),
+          고용보험법 제45조(급여의 기초가 되는 임금일액)</li>
+    </ul>
+    <p><strong>이 글과 계산기는 참고용 추정치입니다.</strong> 평균임금 산정은 임금 구성과
+       근무 이력에 따라 달라집니다. 고용노동부 고객상담센터(<strong>1350</strong>)나
+       관할 고용센터에서 확인하세요.</p>
+  </section>
+
+  <footer>
+    <nav class="sitenav">
+      <a href="/">홈</a>
+      <a href="/longtermcare/">장기요양 계산기</a>
+      <a href="/silup/">실업급여 계산기</a>
+      <a href="/about/">소개</a>
+      <a href="/privacy/">개인정보처리방침</a>
+      <a href="/contact/">문의</a>
+    </nav>
+    <p>살면서 한 번은 겪는 일 · onceinyourlife.co.kr</p>
+  </footer>
+</div>
+</body>
+</html>
