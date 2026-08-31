@@ -6,7 +6,12 @@
 
   var state = { ageGroup: 'under50' };
 
-  function won(n) { return Math.round(n).toLocaleString('ko-KR') + '원'; }
+  // 숫자가 아닌 값이 들어오면 0원으로 둔갑시키지 않고 눈에 띄게 둔다.
+  // (capBase가 null인 구간이 있어 조용한 오표기를 막기 위함)
+  function won(n) {
+    if (typeof n !== 'number' || !isFinite(n)) return '—';
+    return Math.round(n).toLocaleString('ko-KR') + '원';
+  }
   function el(id) { return document.getElementById(id); }
 
   var APPLIED_TEXT = {
@@ -101,9 +106,14 @@
     html += '<div class="rline total"><span>총 예상 수령액</span><span class="val">' + won(r.total) + '</span></div>';
 
     if (r.applied === 'cap') {
+      // capBase가 null인 구간은 기초일액 상한 원문을 확보하지 못한 구간이다.
+      // 역산값을 지어내지 않고 확인한 형태 그대로 적는다.
+      var basis = (r.capBase === null)
+        ? '(이직일 기준 구직급여일액 상한)'
+        : '(기초일액 상한 ' + won(r.capBase) + ' × 60%)';
       html += '<div class="warn-box">평균임금이 상한을 넘어 <strong>' + won(r.capDaily) +
         '</strong>으로 깎였습니다. 월급이 높을수록 계산해보면 생각보다 적게 나오는 이유입니다. ' +
-        '(기초일액 상한 ' + won(r.capBase) + ' × 60%)</div>';
+        basis + '</div>';
     } else if (r.applied === 'floor') {
       html += '<div class="info-box">하한액이 적용됐습니다. 이직일 기준 최저임금 ' +
         won(r.minWage) + '(시간급) × 소정근로시간 × 80% = <strong>' + won(r.minBenefit) +
@@ -116,8 +126,11 @@
       html += '<details><summary>왜 상한이나 하한에 걸리나요?</summary>' +
         '<p class="hint">이직일 기준 하한은 ' + won(r.minBenefit) + ', 상한은 ' + won(r.capDaily) +
         '입니다. 둘의 차이가 ' + won(spread) + '뿐이라, 평균임금이 일 ' +
-        won(Math.floor(r.minBenefit / 0.6)) + '보다 낮으면 하한, 일 ' + won(r.capBase) +
-        '보다 높으면 상한에 걸립니다. 그 사이 구간에서만 평균임금의 60%가 그대로 적용됩니다.</p>' +
+        won(Math.floor(r.minBenefit / 0.6)) + '보다 낮으면 하한' +
+        (r.capBase === null
+          ? ', 평균임금의 60%가 ' + won(r.capDaily) + '을 넘으면 상한'
+          : ', 일 ' + won(r.capBase) + '보다 높으면 상한') +
+        '에 걸립니다. 그 사이 구간에서만 평균임금의 60%가 그대로 적용됩니다.</p>' +
         '</details>';
     }
 
@@ -149,6 +162,10 @@
     el(id).addEventListener('input', recompute);
     el(id).addEventListener('change', recompute);
   });
+
+  // 지원 범위는 data.js가 유일한 출처다. HTML 속성에 따로 적으면 어긋난다.
+  el("leaveDate").min = DATA.supportedFrom;
+  el("leaveDate").max = DATA.supportedTo;
 
   renderAges();
   renderPeriods();

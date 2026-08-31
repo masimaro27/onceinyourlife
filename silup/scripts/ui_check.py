@@ -24,9 +24,9 @@ with sync_playwright() as p:
     page.goto(URL)
 
     # 기본값: 이직일 2026-08-01, 3개월 1,200만원, 8시간, 50세미만, 5~10년
-    # 산정기간 2026-05-01~07-31 = 92일 → 평균임금 130,434 → 상한 걸림 → 68,100 × 210일
+    # 산정기간 2026-05-02~08-01 = 92일 → 평균임금 130,434 → 상한 걸림 → 68,100 × 210일
     hint = page.locator("#periodHint").inner_text()
-    check("period.hint", "2026-05-01 ~ 2026-07-31 (92일)" in hint, hint)
+    check("period.hint", "2026-05-02 ~ 2026-08-01 (92일)" in hint, hint)
     body = page.locator("#resultBody").inner_text()
     check("cap.badge", "상한 적용" in body, body[:200])
     check("cap.daily", "68,100원" in body, body[:300])

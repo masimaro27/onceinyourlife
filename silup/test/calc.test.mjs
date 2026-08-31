@@ -19,16 +19,18 @@ function throws(name, fn, msgPart) {
   }
 }
 
-// 1. 평균임금 산정기간 — 이직일 전날부터 소급 3개월
+// 1. 평균임금 산정기간 — 마지막 근무일(이직일)까지 포함하는 3개월
 {
   const p = CALC.wagePeriod('2026-08-28');
-  eq('기간.start', p.start, '2026-05-28');
-  eq('기간.end', p.end, '2026-08-27');
-  eq('기간.일수', p.totalDays, 92);           // 5/28~31=4 + 6월30 + 7월31 + 8/1~27=27
-  eq('기간.2월포함', CALC.wagePeriod('2026-04-01').totalDays, 90); // 1/1~3/31 = 31+28+31
-  // 말일 클램프: 5/31 −3개월 → 2/28
+  eq('기간.start', p.start, '2026-05-29');
+  eq('기간.end', p.end, '2026-08-28');        // 마지막 근무일 포함
+  eq('기간.일수', p.totalDays, 92);           // 5/29~31=3 + 6월30 + 7월31 + 8/1~28=28
+  eq('기간.2월포함', CALC.wagePeriod('2026-04-01').totalDays, 90); // 1/2~4/1 = 30+28+31+1
+  // 말일 클램프: 5/31 −3개월 → 2/28 → 시작은 그 다음 날
   const c = CALC.wagePeriod('2026-05-31');
-  eq('기간.말일클램프', c.start, '2026-02-28');
+  eq('기간.말일클램프', c.start, '2026-03-01');
+  eq('기간.말일클램프.end', c.end, '2026-05-31');
+  eq('기간.말일클램프.일수', c.totalDays, 92); // 3월31 + 4월30 + 5월31
 }
 
 // 2. 상한 적용 — 2026년 이직, 고소득
@@ -42,11 +44,16 @@ function throws(name, fn, msgPart) {
   eq('상한.총액', r.total, 68100 * 240);
 }
 
-// 3. 상한 경과조치 — 2025년 이직자는 종전 110,000원 → 66,000원
+// 3. 상한 경과조치 — 2025년 이직자는 구직급여일액 상한 66,000원.
+//    data.js는 이 구간의 기초일액 상한 원문을 확보하지 못해 dailyCap만 기록한다.
+//    66,000 ÷ 0.6 = 110,000 역산값을 기초일액으로 단정하지 않기로 했으므로,
+//    기초일액은 캡되지 않고 일액 단계에서 상한이 걸리는 것이 의도한 동작이다.
 {
   const r = CALC.calc({ leaveDate: '2025-12-31', threeMonthPay: 30000000,
     dailyWorkHours: 8, ageGroup: 'under50', insuredPeriod: 'p10' });
-  eq('경과.기초일액', r.baseDaily, 110000);
+  eq('경과.적용', r.applied, 'cap');
+  eq('경과.기초일액_캡없음', r.capBase, null);
+  eq('경과.일액상한', r.capDaily, 66000);
   eq('경과.일액', r.dailyBenefit, 66000);
   const r26 = CALC.calc({ leaveDate: '2026-01-01', threeMonthPay: 30000000,
     dailyWorkHours: 8, ageGroup: 'under50', insuredPeriod: 'p10' });

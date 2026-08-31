@@ -41,14 +41,16 @@
   var DAY = 86400000;
 
   /**
-   * 평균임금 산정기간 — 이직일 전날부터 소급 3개월.
+   * 평균임금 산정기간.
+   * 산정사유 발생일은 퇴직일(= 마지막 근무일의 다음 날)이고, 근로기준법은 그 "이전 3개월"을
+   * 본다. 따라서 기간의 끝은 마지막 근무일(이직일) 당일이고, 시작은 3개월 전 다음 날이다.
    * return { start, end, totalDays }
    */
   function wagePeriod(leaveDateStr) {
     var leave = parseDate(leaveDateStr);
     if (!leave) throw new Error('bad_date');
-    var end = new Date(leave.getTime() - DAY);
-    var start = addMonths(leave, -3);
+    var end = leave;
+    var start = new Date(addMonths(leave, -3).getTime() + DAY);
     var totalDays = Math.round((end.getTime() - start.getTime()) / DAY) + 1;
     return { start: fmt(start), end: fmt(end), totalDays: totalDays };
   }
@@ -100,14 +102,31 @@
     var minBase = minWage * hours;                 // 제45조④ 최저기초일액
     var minBenefit = Math.floor(minBase * DATA.minBenefitRate); // 최저구직급여일액
 
+    // 상한은 구간에 따라 두 가지 형태로 들어온다.
+    //   baseCap  — 시행령 제68조 원문에서 기초일액 상한을 확보한 구간
+    //   dailyCap — 기초일액 상한 원문을 못 구하고 구직급여일액 상한만 확인한 구간
+    // 둘 다 없는 행은 데이터 오류다. undefined와 비교하면 조용히 false가 되어
+    // 상한이 통째로 누락되므로 여기서 명시적으로 막는다.
+    var hasBaseCap = typeof cap.baseCap === 'number';
+    var hasDailyCap = typeof cap.dailyCap === 'number';
+    if (!hasBaseCap && !hasDailyCap) throw new Error('bad_cap_row:' + cap.from);
+
+    // 구직급여일액 상한 — baseCap 구간은 60%를 곱해 얻고, dailyCap 구간은 그 값 자체다
+    var capDaily = hasBaseCap ? Math.floor(cap.baseCap * DATA.benefitRate) : cap.dailyCap;
+
     var base = average;
     var applied = 'normal';   // normal | floor | cap
-    if (base > cap.baseCap) { base = cap.baseCap; applied = 'cap'; }
+    if (hasBaseCap && base > cap.baseCap) { base = cap.baseCap; applied = 'cap'; }
     if (base < minBase) { base = minBase; applied = 'floor'; }
 
     var daily = (applied === 'floor')
       ? Math.floor(base * DATA.minBenefitRate)   // 제46조①2
       : Math.floor(base * DATA.benefitRate);     // 제46조①1
+
+    if (daily > capDaily) {                      // 제46조① 단서 (상한액)
+      daily = capDaily;
+      applied = 'cap';
+    }
 
     if (daily < minBenefit) {                    // 제46조②
       daily = minBenefit;
@@ -122,8 +141,8 @@
       averageWage: average,
       baseDaily: base,
       applied: applied,
-      capBase: cap.baseCap,
-      capDaily: Math.floor(cap.baseCap * DATA.benefitRate),
+      capBase: hasBaseCap ? cap.baseCap : null,   // 원문 미확보 구간은 null
+      capDaily: capDaily,
       minWage: minWage,
       minBase: minBase,
       minBenefit: minBenefit,
