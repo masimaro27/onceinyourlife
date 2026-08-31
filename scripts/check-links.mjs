@@ -4,7 +4,9 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = ['index.html', 'longtermcare/index.html', 'silup/index.html', 'about/index.html', 'privacy/index.html', 'contact/index.html'];
+const sm = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+const PAGES = [...sm.matchAll(/<loc>https:\/\/onceinyourlife\.co\.kr(\/[^<]*)<\/loc>/g)]
+  .map((m) => (m[1] === '/' ? 'index.html' : m[1].replace(/^\//, '') + 'index.html'));
 const MUST = ['/', '/longtermcare/', '/silup/', '/about/', '/privacy/', '/contact/'];
 let failed = 0;
 const fail = (m) => { failed++; console.error('FAIL ' + m); };

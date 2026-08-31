@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKENS = 'assets/tokens.css';
-const FILES = ['assets/site.css', 'index.html', 'longtermcare/index.html', 'silup/index.html',
-  'about/index.html', 'privacy/index.html', 'contact/index.html',
-  'longtermcare/guide/index.html', 'longtermcare/guide/monthly-limit/index.html',
-  'longtermcare/guide/copay-rate/index.html', 'longtermcare/guide/home-vs-facility/index.html'];
+// 페이지 목록은 sitemap에서 유도한다 — 글이 늘어도 손대지 않기 위함
+const sm = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+const FILES = ['assets/site.css', ...[...sm.matchAll(/<loc>https:\/\/onceinyourlife\.co\.kr(\/[^<]*)<\/loc>/g)]
+  .map((m) => (m[1] === '/' ? 'index.html' : m[1].replace(/^\//, '') + 'index.html'))];
 let failed = 0;
 const fail = (m) => { failed++; console.error('FAIL ' + m); };
 

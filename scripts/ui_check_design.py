@@ -4,9 +4,12 @@ import functools, http.server, pathlib, socketserver, sys, threading
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-PAGES = ["/", "/longtermcare/", "/longtermcare/guide/", "/longtermcare/guide/monthly-limit/",
-         "/longtermcare/guide/copay-rate/", "/longtermcare/guide/home-vs-facility/",
-         "/silup/", "/about/", "/privacy/", "/contact/"]
+# 페이지 목록은 sitemap에서 유도한다 — 글이 늘어도 이 파일을 손대지 않기 위함
+import re
+_sm = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+PAGES = re.findall(r"<loc>https://onceinyourlife\.co\.kr([^<]*)</loc>", _sm)
+assert PAGES, "sitemap.xml에서 URL을 읽지 못했습니다"
+
 mode = next((a[2:] for a in sys.argv[1:] if a.startswith("--")), "light")
 failures = []
 
