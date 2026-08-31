@@ -16,6 +16,7 @@ const PAIRS = [
   ['longtermcare/guide/copay-rate/index.html', ['6_장기요양등급혜택']],
   ['longtermcare/guide/home-vs-facility/index.html', ['6_장기요양등급혜택', '7_요양원등급']],
   ['longtermcare/guide/over-limit/index.html', ['6_장기요양등급혜택']],
+  ['longtermcare/guide/not-covered/index.html', ['6_장기요양등급혜택', '7_요양원등급']],
 ];
 
 let failed = 0;
