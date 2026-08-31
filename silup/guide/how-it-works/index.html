@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구직급여는 이렇게 계산됩니다 — 실업급여 계산기 가이드</title>
+<meta name="description" content="실업급여 계산기의 산식 전체. 평균임금에서 구직급여일액까지의 경로와, 2026년 기준 상·하한 폭이 2,052원뿐이라 대부분의 사람이 둘 중 하나에 걸리는 이유를 설명합니다.">
+<meta property="og:title" content="구직급여는 이렇게 계산됩니다 — 실업급여 계산기 가이드">
+<meta property="og:description" content="실업급여 계산기의 산식 전체. 평균임금에서 구직급여일액까지의 경로와, 2026년 기준 상·하한 폭이 2,052원뿐이라 대부분의 사람이 둘 중 하나에 걸리는 이유를 설명합니다.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="crumb">
+    <a href="/silup/">← 실업급여 계산기</a>
+    <span aria-hidden="true">·</span>
+    <a href="/silup/guide/">가이드</a>
+  </nav>
+  <header>
+    <h1>구직급여는 이렇게 계산됩니다</h1>
+    <p class="lead">계산기가 네 가지를 묻고 숫자 하나를 내놓습니다.
+       그 사이에 무슨 일이 일어나는지 전부 펼쳐 보겠습니다.</p>
+  </header>
+
+  <section class="prose">
+    <h2>산식 전체</h2>
+    <p>구직급여는 <strong>하루 얼마</strong>와 <strong>며칠치</strong>를 곱한 값입니다.
+       그 둘이 각각 이렇게 정해집니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>단계</th><th>계산</th></tr></thead>
+        <tbody>
+          <tr><td>① 평균임금</td><td>이직 전 3개월 임금 ÷ 그 기간의 총일수</td></tr>
+          <tr><td>② 기초일액</td><td>평균임금. 단 상한을 넘으면 상한으로, 최저기초일액보다 낮으면 그 값으로</td></tr>
+          <tr><td>③ 구직급여일액</td><td>기초일액 × <strong>60%</strong>. 하한이 적용된 경우는 × 80%</td></tr>
+          <tr><td>④ 소정급여일수</td><td>가입기간과 나이로 120~270일</td></tr>
+          <tr><td>총액</td><td>③ × ④</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>계산기가 묻는 네 가지 — 이직일, 3개월 임금, 1일 소정근로시간, 가입기간·나이 —
+       가 각각 이 단계에 하나씩 들어갑니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>월급을 바꿔가며 돌려보면</h2>
+    <p>2026년에 이직한 50세 미만, 가입기간 10년 이상, 1일 8시간 근로자로 계산한 값입니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>월급</th><th>평균임금(일)</th><th>구직급여일액</th><th>어디에 걸렸나</th></tr></thead>
+        <tbody>
+          <tr><td>200만원</td><td>65,217원</td><td>66,048원</td><td>하한</td></tr>
+          <tr><td>320만원</td><td>104,348원</td><td>66,048원</td><td>하한</td></tr>
+          <tr><td>340만원</td><td>110,870원</td><td>66,521원</td><td>—</td></tr>
+          <tr><td>360만원</td><td>117,391원</td><td><strong>68,100원</strong></td><td>상한</td></tr>
+          <tr><td>500만원</td><td>163,043원</td><td><strong>68,100원</strong></td><td>상한</td></tr>
+          <tr><td>1,000만원</td><td>326,087원</td><td><strong>68,100원</strong></td><td>상한</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>월급 360만원과 1,000만원이 같은 금액을 받습니다.</strong>
+       평균임금은 세 배 가까이 차이 나는데 결과가 한 원도 다르지 않습니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>상한과 하한의 차이가 2,052원뿐입니다</h2>
+    <p>위 표가 이상하게 보였다면 이 때문입니다. 2026년 이직 기준으로
+       위아래 뚜껑이 이렇게 붙어 있습니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>금액</th><th>근거</th></tr></thead>
+        <tbody>
+          <tr><td>하한</td><td>66,048원</td><td>최저임금 10,320원 × 8시간 × 80%</td></tr>
+          <tr><td>상한</td><td>68,100원</td><td>기초일액 상한 113,500원 × 60%</td></tr>
+          <tr><td><strong>차이</strong></td><td><strong>2,052원</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>평균임금으로 환산하면 <strong>일 110,080원에서 113,500원 사이</strong>,
+       월급으로 치면 <strong>대략 330만원에서 340만원 사이</strong>입니다.</p>
+    <p>이 10만원 남짓한 구간에서만 "평균임금의 60%"가 그대로 적용됩니다.
+       그보다 적게 벌었으면 하한, 많이 벌었으면 상한입니다.
+       <strong>대부분의 사람은 둘 중 하나에 걸립니다.</strong></p>
+    <p class="meta">그래서 "실업급여는 월급의 60%"라는 말은 대다수에게 맞지 않습니다.
+      실제로는 거의 모두가 66,048원 아니면 68,100원을 받습니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>이직일이 2025년이냐 2026년이냐로 상한이 갈립니다</h2>
+    <p>상한액은 시행령이 정하고 개정될 때 부칙으로 적용 시점을 못 박습니다.
+       가장 최근 개정은 2025년 12월 23일에 이뤄져 2026년 1월 1일부터 시행됐습니다.</p>
+    <div class="tbl-scroll">
+      <table class="tbl">
+        <thead><tr><th>이직일</th><th>구직급여일액 상한</th></tr></thead>
+        <tbody>
+          <tr><td>2026년 1월 1일 이후</td><td>68,100원</td></tr>
+          <tr><td>2025년 12월 31일 이전</td><td>66,000원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>기준은 <strong>신청한 날이 아니라 이직한 날</strong>입니다.
+       2025년 12월에 그만두고 2026년에 신청했다면 66,000원이 적용됩니다.
+       계산기가 이직일부터 묻는 이유입니다.</p>
+    <p class="meta">인터넷에 있는 안내 중 상당수가 아직 66,000원으로 적혀 있습니다.
+      2026년에 이직하셨다면 그 숫자는 낡은 것입니다. 참고로 66,000원을 2026년 상한으로
+      쓰면 <strong>하한(66,048원)보다 작아지는 모순</strong>이 생깁니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>계산기가 묻는 네 가지가 하는 일</h2>
+    <ul>
+      <li><strong>이직일</strong> — 상한액과 그해 최저임금(=하한)을 함께 정합니다.
+          평균임금 산정기간의 끝이기도 합니다</li>
+      <li><strong>이직 전 3개월 임금</strong> — 평균임금의 분자입니다.
+          어느 3개월인지가 결과를 크게 바꿉니다</li>
+      <li><strong>1일 소정근로시간</strong> — 하한 계산에만 쓰입니다.
+          근로기준법상 1일 8시간을 넘길 수 없어 계산기도 8시간에서 자릅니다</li>
+      <li><strong>가입기간과 나이</strong> — 며칠치인지(소정급여일수)를 정합니다.
+          금액이 아니라 기간에만 관여합니다</li>
+    </ul>
+    <p>월급이 높아 이미 상한에 걸린 분이라면, 3개월 임금을 조금 고쳐 넣어도
+       결과가 꿈쩍하지 않습니다. 그때는 <strong>가입기간 쪽을 정확히 넣는 것</strong>이
+       총액을 훨씬 크게 바꿉니다. 하루 2,052원 차이보다 30일 차이가 큽니다.</p>
+  </section>
+
+  <section class="prose">
+    <h2>계산기에서 확인해 보기</h2>
+    <ol>
+      <li>이직일을 정확히 넣습니다. 마지막 근무일입니다.</li>
+      <li>3개월 임금을 넣고 결과 옆의 배지를 봅니다 — 상한·하한·해당 없음이 표시됩니다.</li>
+      <li>배지가 상한이나 하한이면, 임금을 조금 바꿔도 결과가 안 바뀌는 것을 확인해 보세요.</li>
+      <li>가입기간을 한 칸 올려 보면 총액이 30일치만큼 뛰는 것이 보입니다.</li>
+    </ol>
+  </section>
+
+  <a class="other-tool" href="/silup/">
+    <strong>실업급여 계산기 →</strong>
+    <div class="hint">이직일을 바꿔가며 상한이 갈리는 지점을 볼 수 있습니다.</div>
+  </a>
+
+  <section class="card">
+    <h2>이 글의 기준</h2>
+    <ul>
+      <li>이직일 <strong>2026년</strong> 기준 · 원문 확인일 2026년 8월 28일</li>
+      <li>표의 금액은 50세 미만·가입기간 10년 이상·1일 8시간으로 계산기에서 산출한 값입니다</li>
+      <li>출처 — 고용보험법 제45조·제46조, 같은 법 시행령 제68조 및 부칙(제35934호) 제4조,
+          최저임금위원회 연도별 결정현황</li>
+    </ul>
+    <p><strong>이 글과 계산기는 참고용 추정치입니다.</strong> 실제 지급액은 고용센터의
+       수급자격 인정과 평균임금 산정 결과에 따라 달라집니다.
+       고용노동부 고객상담센터(<strong>1350</strong>)나 관할 고용센터에서 확인하세요.</p>
+  </section>
+
+  <footer>
+    <nav class="sitenav">
+      <a href="/">홈</a>
+      <a href="/longtermcare/">장기요양 계산기</a>
+      <a href="/silup/">실업급여 계산기</a>
+      <a href="/about/">소개</a>
+      <a href="/privacy/">개인정보처리방침</a>
+      <a href="/contact/">문의</a>
+    </nav>
+    <p>살면서 한 번은 겪는 일 · onceinyourlife.co.kr</p>
+  </footer>
+</div>
+</body>
+</html>
