@@ -21,6 +21,7 @@ const PAIRS = [
   ['silup/guide/average-wage/index.html', ['2_실업급여계산']],
   ['silup/guide/caps/index.html', ['2_실업급여계산']],
   ['silup/guide/benefit-days/index.html', ['2_실업급여계산', '3_고용보험실업급여조건']],
+  ['silup/guide/why-different/index.html', ['2_실업급여계산', '3_고용보험실업급여조건', '1_실업급여신청하는곳']],
 ];
 
 let failed = 0;
