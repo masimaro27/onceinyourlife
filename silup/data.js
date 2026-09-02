@@ -25,6 +25,8 @@
     // 상한액은 아직 없다. 2027년 최저임금 10,700원을 그대로 대입하면 최저구직급여일액
     // 68,480원이 상한 68,100원을 넘어, 우리가 "안내 페이지가 낡았다"는 근거로 삼은 것과
     // 똑같은 모순이 생긴다. 상한액이 개정되면 capTable에 행을 추가하고 이 값을 늘린다.
+    // 2023년을 하한으로 둔 이유: 아래 minWageByYear가 2023년부터만 확보돼 있어
+    // 그 이전 이직일은 하한액을 계산할 근거가 없다. calc가 unsupported_date로 막는다.
     supportedFrom: '2023-01-01',
     supportedTo: '2026-12-31',
 
@@ -86,10 +88,15 @@
     earlyHalfRule: 0.5,
 
     sources: [
+      { label: '고용보험법 제40조(구직급여의 수급 요건)', url: 'https://www.law.go.kr/법령/고용보험법/제40조' },
+      { label: '고용보험법 제45조(급여의 기초가 되는 임금일액)', url: 'https://www.law.go.kr/법령/고용보험법/제45조' },
       { label: '고용보험법 제46조(구직급여일액)', url: 'https://www.law.go.kr/법령/고용보험법/제46조' },
+      { label: '고용보험법 제50조(소정급여일수 및 피보험기간)', url: 'https://www.law.go.kr/법령/고용보험법/제50조' },
       { label: '고용보험법 시행령 제68조(상한액)', url: 'https://www.law.go.kr/법령/고용보험법시행령/제68조' },
-      { label: '고용보험법 시행령 제84조·제85조(조기재취업 수당)', url: 'https://www.law.go.kr/법령/고용보험법시행령/제85조' },
+      { label: '고용보험법 시행령 제84조(조기재취업 수당의 요건)', url: 'https://www.law.go.kr/법령/고용보험법시행령/제84조' },
+      { label: '고용보험법 시행령 제85조(조기재취업 수당의 금액)', url: 'https://www.law.go.kr/법령/고용보험법시행령/제85조' },
       { label: '근로기준법 제2조(평균임금의 정의)', url: 'https://www.law.go.kr/법령/근로기준법/제2조' },
+      { label: '근로기준법 제50조(근로시간) — 1일 8시간 상한의 근거', url: 'https://www.law.go.kr/법령/근로기준법/제50조' },
       { label: '고용24 구직급여 지급액(소정급여일수 표)', url: 'https://ei.work24.go.kr/ei/eih/eg/pb/pbPersonBnef/retrievePb0203Info.do' },
       { label: '최저임금위원회 연도별 최저임금 결정현황', url: 'https://www.minimumwage.go.kr/minWage/policy/decisionMain.do' }
     ]
