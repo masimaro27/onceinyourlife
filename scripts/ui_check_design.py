@@ -19,13 +19,20 @@ CONTRAST = r"""
   const ratio=(a,b)=>{const l1=lum(a),l2=lum(b);return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);};
   const bgOf=(el)=>{let e=el;while(e){const c=getComputedStyle(e).backgroundColor;if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c))return c;e=e.parentElement;}return 'rgb(255, 255, 255)';};
   const out=[];
+  const SVGNS='http://www.w3.org/2000/svg';
   for(const e of document.querySelectorAll('body *')){
-    if(e.offsetParent===null) continue;
+    const isSvg = e.namespaceURI===SVGNS;
+    // SVG는 color가 아니라 fill로 칠해진다. color만 보면 클래스가 통째로 비어
+    // 검정으로 렌더돼도 통과한다 — 2026-09-03에 실제로 놓쳤다
+    if(isSvg){ if(e.tagName!=='text' && e.tagName!=='tspan') continue; }
+    else if(e.offsetParent===null) continue;
     if(![...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim().length>2)) continue;
     const cs=getComputedStyle(e), px=parseFloat(cs.fontSize);
+    const col = isSvg ? cs.fill : cs.color;
+    if(!/^rgb/.test(col||'')){ out.push({r:0,need:4.5,color:String(col),bg:'-',px,t:(e.textContent||'').trim().slice(0,26)}); continue; }
     const large = px>=24 || (px>=18.66 && parseInt(cs.fontWeight)>=700);
-    const need = large?3:4.5, r=ratio(cs.color,bgOf(e));
-    if(r<need) out.push({r:+r.toFixed(2),need,color:cs.color,bg:bgOf(e),px,t:(e.textContent||'').trim().slice(0,26)});
+    const need = large?3:4.5, r=ratio(col,bgOf(e));
+    if(r<need) out.push({r:+r.toFixed(2),need,color:col,bg:bgOf(e),px,t:(e.textContent||'').trim().slice(0,26)});
   }
   return out;
 }
@@ -78,6 +85,13 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
                 for v in pg.evaluate(CONTRAST):
                     failures.append(f'{path} {v["r"]}:1 (필요 {v["need"]}) {v["color"]} on {v["bg"]} {v["px"]}px · {v["t"]}')
                 pg.close()
+            # 양성 대조군 — SVG 글자를 fill 기준으로 실제로 재는지
+            pg = ctx.new_page()
+            pg.set_content("<body style='background:#ffffff'><svg viewBox='0 0 120 20' width='120'>"
+                           "<text x='0' y='15' style='fill:#f4f4f4'>대조군</text></svg></body>")
+            if not pg.evaluate(CONTRAST):
+                failures.append("내부 오류: SVG 글자 대비 탐지기가 양성 대조군을 잡지 못함")
+            pg.close()
             ctx.close()
         elif mode == "tap":
             ctx = b.new_context(viewport={"width": 390, "height": 844})

@@ -8,7 +8,9 @@
 <meta property="og:title" content="장기요양 본인부담금 계산기">
 <meta property="og:description" content="등급과 이용 계획을 고르면 월 본인부담금을 추정합니다. 2026년 고시 수가 기준.">
 <meta property="og:type" content="website">
+<link rel="canonical" href="https://onceinyourlife.co.kr/longtermcare/">
 <link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/fig.css">
 <style>
     * { box-sizing: border-box; }
   body {
@@ -151,6 +153,28 @@
   <section class="result" id="resultCard">
     <h2>계산 결과</h2>
     <div id="resultBody"></div>
+  </section>
+
+  <section class="card">
+    <h2>계산 순서</h2>
+      <figure class="fig">
+        <svg viewBox="0 0 320 162" role="img" aria-labelledby="figt figd">
+          <title id="figt">장기요양 본인부담금 계산 3단계</title>
+          <desc id="figd">등급으로 월 한도액이 정해지고, 이용 계획으로 급여비용 합계를 구한 뒤, 본인부담률을 곱합니다.</desc>
+          <rect class="fig-box" x="20" y="14" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="34" text-anchor="middle">① 등급을 고르면 월 한도액이 정해집니다</text>
+          <path class="fig-axis" d="M160 44 V50"/>
+          <path class="fig-dot" d="M156 49 L164 49 L160 54 Z"/>
+          <rect class="fig-box" x="20" y="54" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="74" text-anchor="middle">② 이용할 서비스와 횟수 → 급여비용 합계</text>
+          <path class="fig-axis" d="M160 84 V90"/>
+          <path class="fig-dot" d="M156 89 L164 89 L160 94 Z"/>
+          <rect class="fig-box-on" x="20" y="94" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="114" text-anchor="middle">③ 합계 × 본인부담률 = 본인부담금</text>
+          <text class="fig-mark-text" x="160" y="152" text-anchor="middle">한도를 넘긴 몫은 100% 본인부담입니다</text>
+        </svg>
+        <figcaption>위에서 묻는 세 가지가 각각 이 단계에 하나씩 들어갑니다.</figcaption>
+      </figure>
   </section>
 
   <a class="other-tool" href="/longtermcare/guide/">

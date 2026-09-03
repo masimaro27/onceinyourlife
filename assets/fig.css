@@ -1,0 +1,33 @@
+/* 도해 전용 — tokens.css 다음에 링크한다.
+   site.css가 아니라 별도 파일인 이유: 도구 페이지 셋은 site.css 대신
+   자체 <style> 블록을 쓰기 때문에, 여기 두지 않으면 클래스가 통째로 비어
+   SVG 기본 fill(검정)로 칠해진다. 2026-09-03에 실제로 그렇게 깨졌다.
+   규칙: 채워진 도형 위에 글자를 얹지 않는다. 대비 게이트는 페이지 배경을
+   기준으로 재므로 도형 위 글자는 실제 대비를 재지 못한다 */
+/* 도해 — 표가 못 보여주는 '모양'만 담당한다. 정확한 숫자는 표가 가진다.
+   text에 color와 fill:currentColor를 함께 두는 이유: 대비 게이트가 읽는 것은
+   getComputedStyle().color 라서, fill만 지정하면 게이트가 실제 색을 못 본다 */
+figure.fig { margin: 16px 0 20px; }
+figure.fig svg { display: block; width: 100%; max-width: 400px; height: auto; }
+figure.fig figcaption {
+  color: var(--sub); font-size: var(--fs-sm);
+  margin-top: 8px; max-width: var(--measure);
+}
+.fig-bar { fill: var(--accent); }
+.fig-label { color: var(--ink); fill: currentColor; font-size: var(--fs-xs); }
+.fig-value { color: var(--sub); fill: currentColor; font-size: var(--fs-xs); }
+.fig-mark { stroke: var(--warn); fill: none; stroke-width: 1.5; }
+.fig-mark-text { color: var(--warn); fill: currentColor; font-size: var(--fs-xs); font-weight: 700; }
+.fig-axis { stroke: var(--line); fill: none; stroke-width: 1; }
+.fig-guide { stroke: var(--line); fill: none; stroke-width: 1; stroke-dasharray: 3 3; }
+.fig-line { stroke: var(--accent); fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.fig-line-warn { stroke: var(--warn); fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.fig-area { fill: var(--accent-soft); }
+.fig-dot { fill: var(--accent); }
+.fig-dot-warn { fill: var(--warn); }
+.fig-warn-bar { fill: var(--warn); }
+.fig-box { fill: none; stroke: var(--line); stroke-width: 1; }
+.fig-box-on { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.fig-box-dash { fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig-box-warn { fill: none; stroke: var(--warn); stroke-width: 1.5; }
+.fig-label-b { color: var(--ink); fill: currentColor; font-size: var(--fs-xs); font-weight: 700; }

@@ -55,6 +55,23 @@ try {
   fail(`생성기와 sitemap.xml이 불일치 — ${(e.stdout || e.stderr || '').toString().trim().slice(0, 160)}`);
 }
 
+// canonical — 각 페이지가 자기 자신의 URL을 정확히 가리켜야 한다.
+// 슬래시 유무나 www 변형이 따로 색인되는 것을 막는다
+for (const l of locs) {
+  const f = join(root, l === ORIGIN + '/' ? 'index.html'
+    : l.slice(ORIGIN.length + 1) + 'index.html');
+  if (!existsSync(f)) continue;               // 위 대조에서 이미 실패로 잡힌다
+  const m = readFileSync(f, 'utf8').match(/<link rel="canonical" href="([^"]*)">/);
+  if (!m) fail(`canonical 없음: ${l}`);
+  else if (m[1] !== l) fail(`canonical 불일치: ${l} → ${m[1]}`);
+}
+// 양성 대조군 — canonical 검사기가 불일치를 실제로 잡는지
+{
+  const probe = '<link rel="canonical" href="https://example.com/">';
+  const m = probe.match(/<link rel="canonical" href="([^"]*)">/);
+  if (!m || m[1] === ORIGIN + '/') fail('내부 오류: canonical 검사기가 양성 대조군을 잡지 못함');
+}
+
 // 양성 대조군 — 대조 로직이 실제로 차이를 잡는지
 if (actual.includes(ORIGIN + '/__definitely_missing__/'))
   fail('내부 오류: 페이지 탐색기가 존재하지 않는 경로를 반환함');

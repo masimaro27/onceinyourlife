@@ -7,7 +7,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const TOKENS = 'assets/tokens.css';
 // 페이지 목록은 sitemap에서 유도한다 — 글이 늘어도 손대지 않기 위함
 const sm = readFileSync(join(root, 'sitemap.xml'), 'utf8');
-const FILES = ['assets/site.css', ...[...sm.matchAll(/<loc>https:\/\/onceinyourlife\.co\.kr(\/[^<]*)<\/loc>/g)]
+const FILES = ['assets/site.css', 'assets/fig.css', ...[...sm.matchAll(/<loc>https:\/\/onceinyourlife\.co\.kr(\/[^<]*)<\/loc>/g)]
   .map((m) => (m[1] === '/' ? 'index.html' : m[1].replace(/^\//, '') + 'index.html'))];
 let failed = 0;
 const fail = (m) => { failed++; console.error('FAIL ' + m); };
@@ -42,6 +42,16 @@ for (const f of FILES.filter((f) => f.endsWith('.html'))) {
   if (!readFileSync(join(root, f), 'utf8').includes('/assets/tokens.css'))
     fail(`${f}: tokens.css 미링크`);
 }
+
+// (6) 도해가 있는 페이지는 도해 스타일시트를 링크해야 한다.
+//     클래스가 비면 SVG는 기본 fill(검정)로 칠해진다 — 2026-09-03에 실제로 그렇게 깨졌다
+const usesFig = (s) => /class="fig[- ]/.test(s);
+for (const f of FILES.filter((f) => f.endsWith('.html'))) {
+  const s = readFileSync(join(root, f), 'utf8');
+  if (usesFig(s) && !s.includes('/assets/fig.css')) fail(`${f}: 도해가 있는데 fig.css 미링크`);
+}
+// 양성 대조군 — 도해 탐지기가 실제로 잡는지
+if (!usesFig('<rect class="fig-bar" x="0"/>')) fail('내부 오류: 도해 탐지기가 양성 대조군을 잡지 못함');
 
 // 양성 대조군 — 리터럴 탐지기가 실제로 잡는지
 if (!('a { color: ' + '#abc' + '; }').match(/#[0-9a-fA-F]{3,8}\b/))

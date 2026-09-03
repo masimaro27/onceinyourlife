@@ -8,7 +8,9 @@
 <meta property="og:title" content="실업급여 계산기">
 <meta property="og:description" content="구직급여일액과 소정급여일수로 총 예상 수령액을 계산합니다. 2026년 개정 상한액 반영.">
 <meta property="og:type" content="website">
+<link rel="canonical" href="https://onceinyourlife.co.kr/silup/">
 <link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/fig.css">
 <style>
     * { box-sizing: border-box; }
   body {
@@ -170,6 +172,32 @@
             고소득 재취업, 공무원 임용 등). 해당 여부는 고용센터에서 확인하세요</li>
       </ul>
     </details>
+  </section>
+
+  <section class="card">
+    <h2>계산 순서</h2>
+      <figure class="fig">
+        <svg viewBox="0 0 320 202" role="img" aria-labelledby="figt figd">
+          <title id="figt">구직급여 계산 4단계</title>
+          <desc id="figd">3개월 임금을 그 기간의 총일수로 나눠 평균임금을 구하고, 상한과 하한을 적용해 기초일액을 정한 뒤, 60%를 곱해 하루 지급액을 내고, 소정급여일수를 곱해 총액을 냅니다.</desc>
+          <rect class="fig-box" x="20" y="14" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="34" text-anchor="middle">① 3개월 임금 ÷ 그 기간 총일수 = 평균임금</text>
+          <path class="fig-axis" d="M160 44 V50"/>
+          <path class="fig-dot" d="M156 49 L164 49 L160 54 Z"/>
+          <rect class="fig-box" x="20" y="54" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="74" text-anchor="middle">② 상한·하한을 적용 = 기초일액</text>
+          <path class="fig-axis" d="M160 84 V90"/>
+          <path class="fig-dot" d="M156 89 L164 89 L160 94 Z"/>
+          <rect class="fig-box" x="20" y="94" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="114" text-anchor="middle">③ 기초일액 × 60% = 하루 지급액</text>
+          <path class="fig-axis" d="M160 124 V130"/>
+          <path class="fig-dot" d="M156 129 L164 129 L160 134 Z"/>
+          <rect class="fig-box-on" x="20" y="134" width="280" height="30" rx="4"/>
+          <text class="fig-label" x="160" y="154" text-anchor="middle">④ 하루 지급액 × 소정급여일수 = 총액</text>
+          <text class="fig-mark-text" x="160" y="192" text-anchor="middle">대부분 ②에서 상한이나 하한에 걸립니다</text>
+        </svg>
+        <figcaption>위에서 묻는 네 가지가 각각 이 단계에 하나씩 들어갑니다.</figcaption>
+      </figure>
   </section>
 
   <a class="other-tool" href="/silup/guide/">
