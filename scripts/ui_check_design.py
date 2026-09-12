@@ -94,6 +94,38 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
                 failures.append("내부 오류: SVG 글자 대비 탐지기가 양성 대조군을 잡지 못함")
             pg.close()
             ctx.close()
+        elif mode == "figfit":
+            # 도해 글자가 viewBox를 벗어나면 렌더에서 잘린다 — 2026-09-13 실제로 잘렸다
+            ctx = b.new_context(viewport={"width": 800, "height": 900})
+            for path in PAGES:
+                pg = ctx.new_page(); pg.goto(base + path, wait_until="networkidle")
+                for v in pg.evaluate("""(() => {
+                  const out = [];
+                  for (const svg of document.querySelectorAll('figure.fig svg')) {
+                    const vb = svg.viewBox.baseVal;
+                    for (const t of svg.querySelectorAll('text')) {
+                      const b = t.getBBox();
+                      if (b.x < vb.x - 1 || b.y < vb.y - 1 ||
+                          b.x + b.width > vb.x + vb.width + 2 ||
+                          b.y + b.height > vb.y + vb.height + 2)
+                        out.push({t: t.textContent.trim().slice(0, 24),
+                                  over: Math.round(b.x + b.width - vb.width)});
+                    }
+                  }
+                  return out;
+                })()"""):
+                    failures.append(f'{path} 도해 글자가 viewBox 밖: "{v["t"]}" (+{v["over"]})')
+                pg.close()
+            # 양성 대조군
+            pg = ctx.new_page()
+            pg.set_content("<figure class='fig'><svg viewBox='0 0 100 40'>"
+                           "<text x='60' y='20' style='font-size:14px'>넘치는 글자 넘치는 글자</text></svg></figure>")
+            probe = pg.evaluate("""(() => { const svg=document.querySelector('svg'); const vb=svg.viewBox.baseVal;
+              const b=svg.querySelector('text').getBBox(); return b.x+b.width > vb.width+2; })()""")
+            if not probe:
+                failures.append("내부 오류: 도해 넘침 탐지기가 양성 대조군을 잡지 못함")
+            pg.close(); ctx.close()
+            label = "fig fit"
         elif mode == "tap":
             ctx = b.new_context(viewport={"width": 390, "height": 844})
             for path in PAGES:
@@ -126,4 +158,4 @@ if failures:
     if len(failures) > 25: print(f"... 외 {len(failures)-25}건", file=sys.stderr)
     print(f"{len(failures)} failure(s)", file=sys.stderr); sys.exit(1)
 print({"light": "light contrast verification passed", "dark": "dark contrast verification passed",
-       "tap": "tap target verification passed", "measure": "line measure verification passed"}[mode])
+       "tap": "tap target verification passed", "measure": "line measure verification passed", "figfit": "fig fit verification passed"}[mode])

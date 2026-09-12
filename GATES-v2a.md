@@ -42,6 +42,7 @@
   CHECK: node scripts/check-privacy.mjs
   EXPECT: privacy policy verification passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; path=b62e9a293bcf/28 entries; output=privacy policy verification passed
-- [ ] G11: 라이브 검증 (배포 후) — 전 URL 200·canonical·gift 잔재 0·v2 토큰 서빙
+- [x] G11: 라이브 검증 (배포 후) — 전 URL 200·canonical·gift 잔재 0·v2 토큰 서빙
   CHECK: node /tmp/verify-live-v2.mjs
   EXPECT: LIVE VERIFICATION PASSED
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; path=b62e9a293bcf/28 entries; output=/gift/ → 404 | LIVE VERIFICATION PASSED
