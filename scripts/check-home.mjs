@@ -32,21 +32,26 @@ const links = [
 for (const [href, label] of links)
   if (!body.includes(`href="${href}"`)) fail(`본문에 ${label} 링크 없음 (${href})`);
 
-// 각 도구 카드에 설명과 기준 표기가 함께 있는지
-const cards = [...body.matchAll(/<a class="tool" href="([^"]+)">([\s\S]*?)<\/a>/g)];
-if (cards.length < 2) fail(`도구 카드가 2개 미만: ${cards.length}`);
-for (const [, href, inner] of cards) {
-  if (!/class="desc"/.test(inner)) fail(`${href} 카드에 설명 없음`);
-  if (!/class="basis"/.test(inner)) fail(`${href} 카드에 기준 표기 없음`);
+// 각 갈래 카드에 설명이, 계산기 카드에는 법적 기준 표기가 함께 있는지 (v2)
+const cards = [...body.matchAll(/<div class="ccard[^"]*">([\s\S]*?)\n      <\/div>/g)];
+if (cards.length < 6) fail(`갈래 카드가 6개 미만: ${cards.length}`);
+let toolCards = 0;
+for (const [, inner] of cards) {
+  if (!/class="desc"/.test(inner)) fail('갈래 카드에 설명 없음');
+  if (/class="pill-tool"/.test(inner)) {
+    toolCards++;
+    if (!/class="basis"/.test(inner)) fail('계산기 카드에 기준 표기 없음');
+  }
 }
+if (toolCards < 2) fail(`계산기 카드가 2개 미만: ${toolCards}`);
 
 const text = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 if (text.length < 400) fail(`홈 본문이 너무 짧음: ${text.length}자`);
 
 // 양성 대조군 — 카드 파서가 실제로 동작하는지
-const probe = '<a class="tool" href="/x/"><div class="desc">d</div><div class="basis">b</div></a>';
-if (![...probe.matchAll(/<a class="tool" href="([^"]+)">([\s\S]*?)<\/a>/g)].length)
-  fail('내부 오류: 도구 카드 파서가 양성 대조군을 인식하지 못함');
+const probe = '<div class="ccard cat-x">\n<div class="desc">d</div>\n      </div>';
+if (![...probe.matchAll(/<div class="ccard[^"]*">([\s\S]*?)\n      <\/div>/g)].length)
+  fail('내부 오류: 갈래 카드 파서가 양성 대조군을 인식하지 못함');
 
 if (failed) { console.error(`${failed} failure(s)`); process.exit(1); }
 console.log('home verification passed');

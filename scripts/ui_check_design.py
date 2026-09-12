@@ -77,7 +77,8 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
             if mode == "dark":
                 pg = ctx.new_page(); pg.goto(base + "/", wait_until="networkidle")
                 bgc = pg.evaluate("getComputedStyle(document.body).backgroundColor")
-                if bgc in ("rgb(247, 248, 250)", "rgb(255, 255, 255)"):
+                # 다크 전환 검사 — 라이트 bg 후보는 토큰에서 읽지 않고 밝기로 판단한다
+                if sum(int(x) for x in bgc.replace("rgb(","").replace(")","").split(",")) > 384:
                     failures.append(f"다크 모드에서 배경이 전환되지 않음: {bgc}")
                 pg.close()
             for path in PAGES:

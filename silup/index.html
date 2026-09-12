@@ -9,8 +9,11 @@
 <meta property="og:description" content="구직급여일액과 소정급여일수로 총 예상 수령액을 계산합니다. 2026년 개정 상한액 반영.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://onceinyourlife.co.kr/silup/">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
 <link rel="stylesheet" href="/assets/tokens.css">
 <link rel="stylesheet" href="/assets/fig.css">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
     * { box-sizing: border-box; }
   body {
@@ -92,15 +95,25 @@
     word-break: keep-all;
   }
 
-  .home-link { display: inline-block; font-size: var(--fs-sm); color: var(--accent); text-decoration: none; margin-bottom: 12px; }
 
   header p, .hint, footer p, .unit-note, section.card p, .result p { max-width: var(--measure); }
 
 </style>
 </head>
-<body>
+<body class="cat-silup">
+<header class="topbar">
+  <nav class="tb-in">
+    <a class="brand" href="/">살면서 한 번은 겪는 일</a>
+    <div class="tb-links">
+      <a href="/#tools">계산기</a>
+      <a href="/about/">소개</a>
+      <a href="/contact/">문의</a>
+    </div>
+  </nav>
+</header>
+
 <div class="wrap">
-  <a class="home-link" href="/">← 살면서 한 번은 겪는 일</a>
+  <nav class="crumb"><a href="/">홈</a><span aria-hidden="true">›</span><span aria-current="page">실업급여 계산기</span></nav>
   <header>
     <h1>실업급여 계산기</h1>
     <p>이직일과 퇴직 전 3개월 급여를 넣으면 <strong>하루 얼마</strong>와 <strong>며칠치</strong>를

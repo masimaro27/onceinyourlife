@@ -1,33 +1,47 @@
 /* 디자인 토큰 — 모든 페이지가 이 파일 하나를 링크한다.
    여기서만 색과 크기를 정의하고, 다른 파일에는 리터럴을 두지 않는다.
-   근거: 2026-08-31 전면 진단 (GATES-design.md) */
+   v2 (2026-09-13): 웜 팔레트 + 명조 헤드라인 + 갈래 색.
+   근거: docs/specs/2026-09-13-site-v2-redesign.md · 시안 artifact 025d1aae */
 
 :root {
   color-scheme: light dark;
 
-  /* 중립 */
-  --ink: #222;
-  --sub: #666;
-  --line: #e3e3e3;
-  --bg: #f7f8fa;
-  --card: #fff;
-  --th-bg: #f2f5f9;
+  /* 중립 — 종이 톤 */
+  --ink: #26231c;
+  --sub: #6e6759;
+  --line: #e6e1d4;
+  --bg: #f7f5ef;
+  --card: #fffdf8;
+  --th-bg: #efeade;
 
-  /* 강조 — #2a78d6은 흰 배경에서 4.42:1로 AA 미달이라 어둡게 조정(5.61:1) */
-  --accent: #1b66c4;
-  --accent-ink: #fff;
-  --accent-soft: #eef4fc;
-  --accent-line: #b9d3f0;
+  /* 강조 기본값 — 갈래 없는 페이지(홈·소개 등)의 링크·포커스.
+     body.cat-* 가 갈래 색으로 재정의한다 */
+  --accent: #2e62b0;
+  --accent-ink: #fffdf8;
+  --accent-soft: #eaf0f8;
+  --accent-line: #bccfe8;
 
-  /* 상태 — #eb6834는 3.20:1로 본문 크기에서 미달이라 조정(5.54:1) */
+  /* 상태 */
   --warn: #b8401c;
-  --warn-bg: #fdf1ec;
-  --warn-line: #f6d3c4;
+  --warn-bg: #fbefe8;
+  --warn-line: #f0d4c4;
   --warn-ink: #7a3417;
   --ok: #2b6b2f;
-  --ok-bg: #eef7ee;
+  --ok-bg: #eaf3e6;
 
-  /* 타이포 — 6단계. 이 밖의 크기는 쓰지 않는다 */
+  /* 갈래 색 — 6갈래. 홈 카드와 body.cat-* 재정의가 쓴다 */
+  --cat-silup: #2e62b0;
+  --cat-care: #24785a;
+  --cat-inherit: #7752a8;
+  --cat-home: #a05242;
+  --cat-car: #8a6a1c;
+  --cat-pension: #1d7789;
+
+  /* 헤드라인 명조 — 본문은 산세리프 유지 */
+  --serif: 'Gowun Batang', 'Nanum Myeongjo', AppleMyungjo, Batang, serif;
+
+  /* 타이포 — 7단계. 이 밖의 크기는 쓰지 않는다 */
+  --fs-hero: 2.125rem;
   --fs-h1: 1.75rem;
   --fs-h2: 1.2rem;
   --fs-h3: 1.05rem;
@@ -39,24 +53,33 @@
      rem으로 두면 작은 글씨에서 한 줄 글자수가 늘어난다 */
   --measure: 34em;
   --wrap-max: 34rem;
+  --wide-max: 66rem;
 
   /* 터치 타깃 최소 (WCAG 2.5.5) */
   --tap: 44px;
 }
 
+/* 갈래 페이지 — accent 일습을 갈래 색으로 */
+.cat-silup   { --accent: var(--cat-silup);   --accent-soft: #eaf0f8; --accent-line: #bccfe8; }
+.cat-care    { --accent: var(--cat-care);    --accent-soft: #e7f2ec; --accent-line: #b7d8c8; }
+.cat-inherit { --accent: var(--cat-inherit); --accent-soft: #f0ebf7; --accent-line: #d2c2e6; }
+.cat-home    { --accent: var(--cat-home);    --accent-soft: #f7ece9; --accent-line: #e4c4bb; }
+.cat-car     { --accent: var(--cat-car);     --accent-soft: #f3eede; --accent-line: #ddd0a8; }
+.cat-pension { --accent: var(--cat-pension); --accent-soft: #e6f1f3; --accent-line: #b4d7de; }
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --ink: #e9eaee;
-    --sub: #a3a7b3;
-    --line: #33353d;
-    --bg: #15161a;
-    --card: #1e2027;
-    --th-bg: #252831;
+    --ink: #ece7db;
+    --sub: #a49b8a;
+    --line: #37332a;
+    --bg: #171511;
+    --card: #211e18;
+    --th-bg: #2a2720;
 
-    --accent: #7db3f0;
-    --accent-ink: #0d1117;
-    --accent-soft: #1b2634;
-    --accent-line: #2f4a66;
+    --accent: #94b9ec;
+    --accent-ink: #171511;
+    --accent-soft: #232936;
+    --accent-line: #3d4d68;
 
     --warn: #ff9e7a;
     --warn-bg: #2b1c15;
@@ -64,7 +87,20 @@
     --warn-ink: #ffbfa3;
     --ok: #8fd39a;
     --ok-bg: #17251a;
+
+    --cat-silup: #94b9ec;
+    --cat-care: #8fcfae;
+    --cat-inherit: #c4a8e8;
+    --cat-home: #e8a595;
+    --cat-car: #d6bc6a;
+    --cat-pension: #83c7d8;
   }
+  .cat-silup   { --accent-soft: #232936; --accent-line: #3d4d68; }
+  .cat-care    { --accent-soft: #1c2b23; --accent-line: #35553f; }
+  .cat-inherit { --accent-soft: #2a2434; --accent-line: #4c3d64; }
+  .cat-home    { --accent-soft: #302019; --accent-line: #5c3a2c; }
+  .cat-car     { --accent-soft: #2b2717; --accent-line: #57492a; }
+  .cat-pension { --accent-soft: #1a292d; --accent-line: #2f5058; }
 }
 
 /* 키보드 포커스 — 브라우저 기본 outline은 강조 배경 위에서 보이지 않는다 */

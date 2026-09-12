@@ -3,7 +3,7 @@
 # python3 scripts/ui_check_pages.py
 import functools
 import http.server
-import pathlib
+import pathlib, re
 import socketserver
 import sys
 import threading
@@ -16,6 +16,16 @@ MOBILE = 390
 
 failures = []
 
+
+
+def _token_bg():
+    """tokens.css의 라이트 --bg를 rgb() 문자열로 — 팔레트가 바뀌어도 게이트가 따라간다"""
+    css = pathlib.Path(__file__).resolve().parent.parent.joinpath("assets/tokens.css").read_text()
+    light = css.split("@media")[0]
+    m = re.search(r"--bg:\s*#([0-9a-fA-F]{6})", light)
+    if not m: raise SystemExit("FAIL tokens.css에서 --bg를 찾지 못함")
+    h = m.group(1)
+    return "rgb(%d, %d, %d)" % (int(h[0:2],16), int(h[2:4],16), int(h[4:6],16))
 
 def check(name, cond, detail=""):
     if not cond:
@@ -48,8 +58,8 @@ with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
 
             # 공통 스타일시트가 실제로 적용됐는지 — 링크 존재가 아니라 계산된 스타일로 확인
             bg = page.evaluate("getComputedStyle(document.body).backgroundColor")
-            check(f"{path} css applied", bg == "rgb(247, 248, 250)",
-                  f"body background={bg} (기대: rgb(247, 248, 250) = --bg)")
+            check(f"{path} css applied", bg == _token_bg(),
+                  f"body background={bg} (기대: {_token_bg()} = --bg)")
 
             # 모바일 가로 넘침
             overflow = page.evaluate(

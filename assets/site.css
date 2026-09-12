@@ -66,3 +66,63 @@ section.prose a { color: var(--accent); word-break: break-word; }
 nav.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 12px; font-size: var(--fs-sm); }
 nav.crumb a { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--tap); }
 nav.crumb span { color: var(--sub); }
+
+/* ── v2 (2026-09-13) ─────────────────────────────────────────── */
+
+h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
+
+.topbar { border-bottom: 1px solid var(--line); background: var(--bg); }
+.topbar .tb-in {
+  max-width: var(--wide-max); margin: 0 auto; padding: 0 16px;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  min-height: 56px;
+}
+.topbar .brand {
+  font-family: var(--serif); font-weight: 700; font-size: var(--fs-h3);
+  color: var(--ink); text-decoration: none; word-break: keep-all;
+  display: inline-flex; align-items: center; min-height: var(--tap);
+}
+.topbar .tb-links { display: flex; flex-wrap: wrap; gap: 2px; }
+.topbar .tb-links a {
+  color: var(--sub); text-decoration: none; font-size: var(--fs-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--tap); min-width: var(--tap); padding: 0 10px; word-break: keep-all;
+}
+.topbar .tb-links a:hover { color: var(--accent); }
+
+/* 포털 홈 */
+.home-wrap { max-width: var(--wide-max); margin: 0 auto; padding: 20px 16px 60px; }
+.hero { padding: 36px 0 30px; }
+.hero h1 { font-size: var(--fs-hero); line-height: 1.35; margin: 0 0 14px; max-width: 22em; }
+.hero p { font-size: var(--fs-h3); line-height: 1.7; color: var(--sub); max-width: var(--measure); margin: 0; text-wrap: pretty; }
+.cat-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 10px 0 16px; }
+.cat-head h2 { font-size: var(--fs-h2); margin: 0; }
+.cat-head .meta { font-size: var(--fs-sm); }
+.cat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .cat-grid { grid-template-columns: 1fr; } }
+.ccard {
+  display: flex; flex-direction: column; gap: 9px;
+  background: var(--card); border: 1px solid var(--line);
+  border-top: 3px solid var(--accent); border-radius: 10px; padding: 20px 20px 16px;
+}
+.ccard .cat-label { font-size: var(--fs-xs); font-weight: 700; color: var(--accent); letter-spacing: 0.04em; }
+.ccard h3 { font-family: var(--serif); font-size: var(--fs-h2); font-weight: 700; margin: 0; line-height: 1.4; }
+.ccard h3 a { color: var(--ink); text-decoration: none; }
+.ccard h3 a:hover { color: var(--accent); }
+.ccard .desc { font-size: var(--fs-sm); line-height: 1.6; color: var(--sub); margin: 0; text-wrap: pretty; }
+.ccard .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.ccard .pills a {
+  display: inline-flex; align-items: center; min-height: 36px;
+  border-radius: 999px; padding: 3px 13px; font-size: var(--fs-xs);
+  text-decoration: none; word-break: keep-all;
+}
+.pill-tool { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.pill-link { border: 1px solid var(--line); color: var(--sub); }
+.pill-link:hover, .ccard .pills a.pill-link:hover { color: var(--accent); border-color: var(--accent-line); }
+.principles-band { background: var(--th-bg); border-radius: 12px; padding: 24px 26px; margin: 36px 0 0; }
+.principles-band h2 { font-size: var(--fs-h2); margin: 0 0 14px; }
+.principles-band .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px; font-size: var(--fs-sm); line-height: 1.65; }
+@media (max-width: 620px) { .principles-band .cols { grid-template-columns: 1fr; } }
+.principles-band .cols span { color: var(--sub); }
+.ccard .basis { font-size: var(--fs-xs); color: var(--sub); margin-top: 8px; }
