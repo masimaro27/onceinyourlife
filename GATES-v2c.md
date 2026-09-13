@@ -63,6 +63,7 @@
   18개 주장 각각을 해당 조문 원문과 재대조했다. 전건 일치. 특기: 등기 관할 특례는
   2025-01-31 시행이라 구 안내와 상충하며(아카이브 [치명적1] 기록), 제1008조 단서는
   2026-03-17 신설이라 개정 전 자료에 없다 — 두 곳 모두 본문에 시행일을 명기했다.
-- [ ] G12: 라이브 검증 (배포 후) — 23 URL 200·canonical·/inherit/ 서빙·gift 404
+- [x] G12: 라이브 검증 (배포 후) — 23 URL 200·canonical·/inherit/ 서빙·gift 404
   CHECK: node /tmp/verify-live-v2c.mjs
   EXPECT: LIVE VERIFICATION PASSED
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/minhyuk/Documents/_개인/앱/onceinyourlife; path=b62e9a293bcf/28 entries; output=/gift/ → 404 | LIVE VERIFICATION PASSED
