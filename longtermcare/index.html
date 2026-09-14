@@ -32,13 +32,14 @@
   h2 .step { color: var(--accent); margin-right: 6px; }
   .seg { display: flex; flex-wrap: wrap; gap: 8px; }
   .seg button {
+    min-height: var(--tap);
     flex: 1 1 auto; min-width: 88px; padding: 10px 6px; font-size: var(--fs-body);
     border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer;
   }
   .seg button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
   .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
   .tabs button {
-    flex: 1; padding: 10px; font-size: var(--fs-body); border: 1px solid var(--line);
+    flex: 1; min-height: var(--tap); padding: 10px; font-size: var(--fs-body); border: 1px solid var(--line);
     border-radius: 8px; background: var(--card); cursor: pointer;
   }
   .tabs button.on { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; }
@@ -47,6 +48,7 @@
   .svc .name { font-weight: 700; margin-bottom: 6px; }
   .svc .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .svc select, .svc input[type=number], #facilitySelect, #facilityDays, #burdenSelect {
+    min-height: var(--tap);
     padding: 9px 8px; font-size: var(--fs-body); border: 1px solid var(--line); border-radius: 8px;
     background: var(--card); max-width: 100%;
   }
@@ -65,7 +67,13 @@
   .rline { display: flex; justify-content: space-between; padding: 4px 0; font-size: var(--fs-body); }
   .rline.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 10px; }
   .rline.copay { font-size: var(--fs-h2); font-weight: 800; }
-  .rline.copay .val { color: var(--warn); }
+  .rline.copay { flex-wrap: wrap; }
+  /* 결과 금액 — 이 사이트의 정점. 경고색이 아니라 본문색으로, 명조로 크게.
+     (2026-09 시각 리뷰: 불안한 방문자에게 결과 숫자가 위험색이면 안 된다) */
+  .money-hero {
+    color: var(--ink); font-family: var(--serif); font-size: var(--fs-hero);
+    font-variant-numeric: tabular-nums; letter-spacing: -0.01em; line-height: 1.2;
+  }
   .gauge { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; margin: 8px 0 2px; }
   .gauge .bar { height: 100%; background: var(--accent); width: 0; }
   .gauge .bar.over { background: var(--warn); }
@@ -165,7 +173,7 @@
 
   <section class="result" id="resultCard">
     <h2>계산 결과</h2>
-    <div id="resultBody"></div>
+    <div id="resultBody" aria-live="polite"></div>
   </section>
 
   <section class="card">

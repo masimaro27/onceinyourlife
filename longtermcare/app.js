@@ -216,7 +216,7 @@
       (r.overLimit > 0 ? ' — <strong>한도 초과</strong>' : '') + '</div>';
     html += '<div class="rline total"><span>월 총 급여비용</span><span>' + won(r.total) + '</span></div>';
     html += '<div class="rline"><span>공단 부담</span><span>' + won(r.publicShare) + '</span></div>';
-    html += '<div class="rline copay"><span>본인부담 (월)</span><span class="val">' + won(r.copay) + '</span></div>';
+    html += '<div class="rline copay"><span>본인부담 (월)</span><span class="val money-hero">' + won(r.copay) + '</span></div>';
     if (r.overLimit > 0) {
       html += '<div class="warn-box">한도 초과분 ' + won(r.overLimit) +
         '은 전액 본인부담으로 계산했습니다. 조합을 줄이거나 기관과 상담해 보세요.</div>';
@@ -240,7 +240,7 @@
     html += '<div class="rline"><span>입소일수</span><span>' + r.days + '일</span></div>';
     html += '<div class="rline total"><span>월 총 급여비용</span><span>' + won(r.total) + '</span></div>';
     html += '<div class="rline"><span>공단 부담</span><span>' + won(r.publicShare) + '</span></div>';
-    html += '<div class="rline copay"><span>본인부담 (월)</span><span class="val">' + won(r.copay) + '</span></div>';
+    html += '<div class="rline copay"><span>본인부담 (월)</span><span class="val money-hero">' + won(r.copay) + '</span></div>';
     html += '<div class="warn-box">' + WARN_TEXT.facilityNonCovered + '</div>';
     body.innerHTML = html;
   }

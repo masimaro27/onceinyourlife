@@ -64,7 +64,7 @@ section.prose li { margin-bottom: 6px; }
 section.prose a { color: var(--accent); word-break: break-word; }
 
 nav.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 12px; font-size: var(--fs-sm); }
-nav.crumb a { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--tap); }
+nav.crumb a { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); }
 nav.crumb span { color: var(--sub); }
 
 /* ── v2 (2026-09-13) ─────────────────────────────────────────── */
@@ -108,12 +108,12 @@ h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
 }
 .ccard .cat-label { font-size: var(--fs-xs); font-weight: 700; color: var(--accent); letter-spacing: 0.04em; }
 .ccard h3 { font-family: var(--serif); font-size: var(--fs-h2); font-weight: 700; margin: 0; line-height: 1.4; }
-.ccard h3 a { color: var(--ink); text-decoration: none; }
+.ccard h3 a { color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--tap); }
 .ccard h3 a:hover { color: var(--accent); }
 .ccard .desc { font-size: var(--fs-sm); line-height: 1.6; color: var(--sub); margin: 0; text-wrap: pretty; }
 .ccard .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
 .ccard .pills a {
-  display: inline-flex; align-items: center; min-height: 36px;
+  display: inline-flex; align-items: center; min-height: var(--tap);
   border-radius: 999px; padding: 3px 13px; font-size: var(--fs-xs);
   text-decoration: none; word-break: keep-all;
 }

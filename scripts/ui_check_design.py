@@ -38,10 +38,20 @@ CONTRAST = r"""
 }
 """
 TAP = r"""
-() => [...document.querySelectorAll('footer nav a')].map(a=>{
-  const r=a.getBoundingClientRect();
-  return {t:a.textContent.trim(), w:Math.round(r.width), h:Math.round(r.height)};
-}).filter(o=>o.w<44||o.h<44)
+() => {
+  // 컨트롤류 전수 측정 — 2026-09-14 리뷰에서 footer nav만 재던 사각지대를 확장.
+  // 문장·목록·표·힌트 속 인라인 링크는 WCAG 2.5.8의 inline 예외라 제외한다.
+  const out = [];
+  for (const e of document.querySelectorAll('a, button, summary, input, select')) {
+    if (e.closest('p, li, td, th, figcaption, .hint')) continue;
+    const r = e.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) continue;
+    if (r.width < 44 || r.height < 44)
+      out.push({t: (e.textContent || e.id || e.tagName).trim().slice(0, 24),
+                w: Math.round(r.width), h: Math.round(r.height)});
+  }
+  return out;
+}
 """
 MEASURE = r"""
 () => {

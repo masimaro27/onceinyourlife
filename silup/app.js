@@ -14,6 +14,47 @@
   }
   function el(id) { return document.getElementById(id); }
 
+  /* 금액 입력 콤마 처리 — type=number 는 콤마를 못 넣어 text 로 두고 여기서 관리한다.
+     커서 위치는 숫자 개수 기준으로 보존한다 (gift 계산기에서 검증된 패턴) */
+  function digitsBefore(str, pos) {
+    var n = 0;
+    for (var i = 0; i < pos && i < str.length; i++) if (str[i] >= '0' && str[i] <= '9') n++;
+    return n;
+  }
+  function posForDigits(str, n) {
+    if (n <= 0) return 0;
+    var c = 0;
+    for (var i = 0; i < str.length; i++) {
+      if (str[i] >= '0' && str[i] <= '9') { c++; if (c === n) return i + 1; }
+    }
+    return str.length;
+  }
+  function formatMoneyInput(input) {
+    var raw = input.value;
+    var caret = input.selectionStart == null ? raw.length : input.selectionStart;
+    var wanted = digitsBefore(raw, caret);
+    var digits = raw.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+    var formatted = digits === '' ? '' : Number(digits).toLocaleString('ko-KR');
+    if (formatted !== raw) {
+      input.value = formatted;
+      try { var p = posForDigits(formatted, wanted); input.setSelectionRange(p, p); } catch (e) { /* 무시 */ }
+    }
+    return digits === '' ? 0 : Number(digits);
+  }
+  function moneyValue(id) { return Number(String(el(id).value).replace(/[^0-9]/g, '')) || 0; }
+  function readbackWon(n) {
+    n = Math.floor(Number(n));
+    if (!isFinite(n) || n <= 0) return '';
+    var eok = Math.floor(n / 100000000);
+    var man = Math.floor((n % 100000000) / 10000);
+    var rest = n % 10000;
+    var parts = [];
+    if (eok) parts.push(eok.toLocaleString('ko-KR') + '억');
+    if (man) parts.push(man.toLocaleString('ko-KR') + '만');
+    if (rest) parts.push(rest.toLocaleString('ko-KR'));
+    return parts.join(' ') + '원';
+  }
+
   var APPLIED_TEXT = {
     cap: { badge: '상한 적용', cls: 'cap' },
     floor: { badge: '하한 적용', cls: 'floor' },
@@ -82,7 +123,7 @@
     try {
       r = CALC.calc({
         leaveDate: leaveDate,
-        threeMonthPay: el('threeMonthPay').value,
+        threeMonthPay: moneyValue('threeMonthPay'),
         dailyWorkHours: el('dailyWorkHours').value,
         ageGroup: state.ageGroup,
         insuredPeriod: el('insuredPeriod').value
@@ -103,7 +144,7 @@
     html += '<div class="rline"><span>구직급여일액<span class="badge ' + a.cls + '">' + a.badge +
             '</span></span><span><strong>' + won(r.dailyBenefit) + '</strong></span></div>';
     html += '<div class="rline"><span>소정급여일수</span><span>' + r.payableDays + '일</span></div>';
-    html += '<div class="rline total"><span>총 예상 수령액</span><span class="val">' + won(r.total) + '</span></div>';
+    html += '<div class="rline total"><span>총 예상 수령액</span><span class="val money-hero">' + won(r.total) + '</span></div>';
 
     if (r.applied === 'cap') {
       // capBase가 null인 구간은 기초일액 상한 원문을 확보하지 못한 구간이다.
@@ -157,6 +198,12 @@
     }
     box.innerHTML = html;
   }
+
+  el('threeMonthPay').addEventListener('input', function () {
+    formatMoneyInput(el('threeMonthPay'));
+    el('payReadback').textContent = readbackWon(moneyValue('threeMonthPay'));
+  });
+  el('payReadback').textContent = readbackWon(moneyValue('threeMonthPay'));
 
   ['leaveDate', 'threeMonthPay', 'dailyWorkHours', 'insuredPeriod', 'remainingDays'].forEach(function (id) {
     el(id).addEventListener('input', recompute);
