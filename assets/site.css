@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  font-family: var(--display);
   line-height: 1.65; -webkit-text-size-adjust: 100%;
 }
 .wrap { max-width: var(--wrap-max); margin: 0 auto; padding: 20px 16px 60px; }
@@ -9,7 +9,7 @@ body {
 header h1 { font-size: var(--fs-h1); margin: 0 0 6px; }
 header p.lead { color: var(--sub); margin: 0 0 20px; font-size: var(--fs-body); }
 section.card {
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card);
   padding: 16px 18px; margin-bottom: 14px;
 }
 section.card h2 { font-size: var(--fs-h2); margin: 0 0 10px; }
@@ -26,7 +26,7 @@ table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 8px 10px; t
 table.tbl th { background: var(--bg); font-weight: 700; white-space: nowrap; }
 .other-tool {
   display: block; background: var(--card); border: 1px solid var(--line);
-  border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;
   text-decoration: none; color: var(--ink);
 }
 .other-tool strong { color: var(--accent); }
@@ -70,7 +70,8 @@ nav.crumb span { color: var(--sub); }
 
 /* ── v2 (2026-09-13) ─────────────────────────────────────────── */
 
-h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
+h1, h2, .serif { font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; }
+h2 { letter-spacing: -0.02em; }
 
 .topbar { border-bottom: 1px solid var(--line); background: var(--bg); }
 .topbar .tb-in {
@@ -79,7 +80,7 @@ h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
   min-height: 56px;
 }
 .topbar .brand {
-  font-family: var(--serif); font-weight: 700; font-size: var(--fs-h3);
+  font-family: var(--display); font-weight: 700; font-size: var(--fs-h3);
   color: var(--ink); text-decoration: none; word-break: keep-all;
   display: inline-flex; align-items: center; min-height: var(--tap);
 }
@@ -105,10 +106,10 @@ h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
 .ccard {
   display: flex; flex-direction: column; gap: 9px;
   background: var(--card); border: 1px solid var(--line);
-  border-top: 3px solid var(--accent); border-radius: 10px; padding: 20px 20px 16px;
+  border-top: 3px solid var(--accent); border-radius: var(--r-card); padding: 20px 20px 16px;
 }
 .ccard .cat-label { font-size: var(--fs-xs); font-weight: 700; color: var(--accent); letter-spacing: 0.04em; }
-.ccard h3 { font-family: var(--serif); font-size: var(--fs-h2); font-weight: 700; margin: 0; line-height: 1.4; }
+.ccard h3 { font-family: var(--display); font-size: var(--fs-h2); font-weight: 700; margin: 0; line-height: 1.4; }
 .ccard h3 a { color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--tap); }
 .ccard h3 a:hover { color: var(--accent); }
 .ccard .desc { font-size: var(--fs-sm); line-height: 1.6; color: var(--sub); margin: 0; text-wrap: pretty; }
@@ -155,7 +156,7 @@ a[target="_blank"]::after { content: " ↗"; font-size: var(--fs-xs); }
 /* 근거 스탬프 — 기준·확인일을 각주가 아니라 구조 장치로 */
 .basis-chip {
   display: inline-flex; align-items: center; gap: 6px;
-  border: 1px solid var(--line); border-radius: 6px;
+  border: 1px solid var(--line); border-radius: var(--r-chip);
   padding: 5px 10px; margin-top: 12px;
   font-size: var(--fs-xs); color: var(--sub); background: var(--card);
 }

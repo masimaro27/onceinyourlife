@@ -16,7 +16,7 @@ for (const u of pages) {
   const s = readFileSync(f, 'utf8');
   if (!s.includes('class="topbar"')) fail(`${u} topbar 없음`);
   if (!s.includes('class="brand" href="/"')) fail(`${u} 브랜드 홈 링크 없음`);
-  if (!s.includes('fonts.googleapis.com/css2?family=Gowun+Batang')) fail(`${u} 명조 글꼴 링크 없음`);
+  if (!s.includes('cdn.jsdelivr.net/gh/orioncactus/pretendard')) fail(`${u} Pretendard 글꼴 링크 없음`);
   if (u !== '/') {
     if (!s.includes('class="crumb"')) fail(`${u} 크럼 없음`);
     if (!/class="crumb"><a href="\/">홈<\/a>/.test(s)) fail(`${u} 크럼이 홈에서 시작하지 않음`);

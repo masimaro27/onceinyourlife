@@ -64,11 +64,12 @@ if (claimsNoAdsYet) {
 if (!claimsNoCollection) fail('방침에 개인정보 미수집 진술이 없음 — 이 사이트의 실제 동작과 다름');
 
 // (4b) 외부 글꼴 — 페이지가 Google Fonts를 링크하면 방침이 그 사실을 밝혀야 한다
-const fontUsers = files.filter(f => f.endsWith('.html') && /fonts\.googleapis\.com/.test(readFileSync(f, 'utf8')));
-if (fontUsers.length && !(doc.includes('Google Fonts') && doc.includes('글꼴')))
-  fail(`글꼴을 외부(fonts.googleapis.com)에서 불러오는데 방침에 고지가 없음 — ${fontUsers.length}개 페이지`);
+const FONT_HOST = /fonts\.googleapis\.com|cdn\.jsdelivr\.net/;
+const fontUsers = files.filter(f => f.endsWith('.html') && FONT_HOST.test(readFileSync(f, 'utf8')));
+if (fontUsers.length && !((doc.includes('jsDelivr') || doc.includes('Google Fonts')) && doc.includes('글꼴')))
+  fail(`글꼴을 외부 CDN에서 불러오는데 방침에 고지가 없음 — ${fontUsers.length}개 페이지`);
 // 양성 대조군 — 글꼴 탐지 정규식이 실제로 잡는지
-if (!/fonts\.googleapis\.com/.test('<link href="https://fonts.googleapis.com/css2?x">'))
+if (!FONT_HOST.test('<link href="https://cdn.jsdelivr.net/gh/x">'))
   fail('내부 오류: 글꼴 탐지기가 양성 대조군을 잡지 못함');
 
 // (5) 양성 대조군 — 스캐너가 실제로 탐지 능력이 있는지 확인

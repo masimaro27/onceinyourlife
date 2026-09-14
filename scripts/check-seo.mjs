@@ -31,6 +31,7 @@ for (const m of xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g))
 
 // 실제 파일시스템의 공개 페이지와 대조
 const SKIP = new Set(['.git', 'node_modules', '.unlazy', 'scripts', 'test', 'docs', 'assets']);
+for (const e of (process.env.SITEMAP_EXCLUDE || '').split(',').filter(Boolean)) SKIP.add(e); // 배포 시 gift 제외용 — 디렉터리 이동 없이
 const findPages = (dir, acc = []) => {
   if (existsSync(join(dir, 'index.html'))) acc.push(dir);
   for (const e of readdirSync(dir)) {

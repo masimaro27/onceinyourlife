@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'https://onceinyourlife.co.kr';
 const SKIP = new Set(['.git', 'node_modules', '.unlazy', 'scripts', 'test', 'docs', 'assets']);
+for (const e of (process.env.SITEMAP_EXCLUDE || '').split(',').filter(Boolean)) SKIP.add(e); // 배포 시 gift 제외용 — 디렉터리 이동 없이
 
 // 공개 페이지 = index.html 이 있는 디렉터리. 도구 내부 scripts/test 는 제외.
 function findPages(dir, acc = []) {

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>증여세 계산기 — 받은 재산에 세금이 얼마</title>
+<meta name="description" content="누구에게서 얼마를 받았는지 넣으면 증여세를 추정합니다. 증여재산공제, 혼인·출산공제, 세대생략 할증, 신고세액공제까지 계산합니다.">
+<meta property="og:title" content="증여세 계산기">
+<meta property="og:description" content="누구에게서 얼마를 받았는지 넣으면 증여세를 추정합니다.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://onceinyourlife.co.kr/gift/">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    line-height: 1.55; -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 60px; }
+  header h1 { font-size: var(--fs-h1); margin: 0 0 6px; }
+  header p { color: var(--sub); margin: 0 0 20px; font-size: var(--fs-body); max-width: var(--measure); }
+  section.card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card);
+    padding: 16px; margin-bottom: 14px;
+  }
+  h2 { font-size: var(--fs-h2); margin: 0 0 10px; }
+  h2 .step { color: var(--accent); margin-right: 6px; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg button {
+    flex: 1 1 auto; min-width: 88px; min-height: var(--tap); padding: 10px 8px;
+    font-size: var(--fs-body); border: 1px solid var(--line); border-radius: var(--r-ctl);
+    background: var(--card); color: var(--ink); cursor: pointer;
+  }
+  .seg button.on { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .field { display: block; margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .lab { display: block; font-weight: 700; margin-bottom: 6px; font-size: var(--fs-body); }
+  input[type=number], input[type=text] {
+    width: 100%; min-height: var(--tap); padding: 9px 10px; font-size: var(--fs-body);
+    border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--card); color: var(--ink);
+  }
+  .readback { margin-top: 6px; font-size: var(--fs-body); font-weight: 700; color: var(--accent); min-height: 1.4em; }
+  .hint { color: var(--sub); font-size: var(--fs-sm); margin-top: 4px; max-width: var(--measure); }
+  .yn { display: flex; gap: 8px; }
+  .yn button {
+    flex: 1; min-height: var(--tap); font-size: var(--fs-body);
+    border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--card); color: var(--ink); cursor: pointer;
+  }
+  .yn button.on { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .result { background: var(--card); border: 2px solid var(--accent); border-radius: var(--r-card); padding: 16px; margin-bottom: 14px; }
+  .result h2 { color: var(--accent); }
+  .rline { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; font-size: var(--fs-body); }
+  .rline.total { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; font-weight: 700; }
+  .rline.total .val { color: var(--accent); font-size: var(--fs-h2); }
+  .rline .minus { color: var(--sub); }
+  .warn-box { background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 10px; padding: 12px 14px; font-size: var(--fs-sm); margin-top: 12px; color: var(--warn-ink); }
+  .other-tool {
+    display: block; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-card);
+    padding: 14px 16px; margin-bottom: 14px; text-decoration: none; color: var(--ink);
+  }
+  .other-tool strong { color: var(--accent); }
+  .other-tool .hint { color: var(--sub); font-size: var(--fs-sm); margin-top: 4px; }
+  footer { font-size: var(--fs-sm); color: var(--sub); border-top: 1px solid var(--line); padding-top: 14px; margin-top: 20px; }
+  footer ul { padding-left: 18px; margin: 8px 0; }
+  footer a { color: var(--accent); word-break: break-all; }
+  footer p, footer li { max-width: var(--measure); }
+  footer nav.sitenav {
+    display: flex; flex-wrap: wrap; gap: 2px 4px;
+    margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  footer nav.sitenav a {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--tap); min-width: var(--tap); padding: 0 10px; margin: 0; word-break: keep-all;
+  }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="cat-inherit">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <nav class="tb-in">
+    <a class="brand" href="/">살면서 한 번은 겪는 일</a>
+    <div class="tb-links">
+      <a href="/#tools">계산기</a>
+      <a href="/about/">소개</a>
+      <a href="/contact/">문의</a>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap" id="main">
+  <nav class="crumb"><a href="/">홈</a><span aria-hidden="true">›</span><span aria-current="page">증여세 계산기</span></nav>
+  <header>
+    <h1>증여세 계산기</h1>
+    <p>누구에게서 얼마를 받았는지 넣으면 내야 할 증여세를 추정합니다.
+       2026년 9월 2일 기준 법령으로 계산합니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="step">1.</span>누구에게서 받았나요</h2>
+    <div class="seg" id="relSeg"></div>
+    <p class="hint">재산을 준 사람과의 관계입니다. 관계에 따라 세금에서 빼주는 금액이 달라집니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2.</span>얼마를 받았나요</h2>
+    <label class="field">
+      <span class="lab">받은 재산이 얼마인가요</span>
+      <input id="giftValue" class="money" type="text" inputmode="numeric" autocomplete="off" value="300,000,000">
+      <div class="readback" id="giftReadback"></div>
+      <p class="hint">돈이 아니라 집이나 주식이면 <strong>이미 평가된 금액</strong>을 넣으세요.
+         평가 자체는 이 계산기가 하지 않습니다.</p>
+    </label>
+    <label class="field">
+      <span class="lab">받는 분이 미성년자인가요</span>
+      <span class="yn" id="minorYn"></span>
+      <p class="hint">증여받는 날에 만 19세 미만이면 예입니다.</p>
+    </label>
+  </section>
+
+  <section class="card" id="skipCard" hidden>
+    <h2><span class="step">3.</span>세대를 건너뛴 증여인가요</h2>
+    <span class="yn" id="skipYn"></span>
+    <p class="hint">조부모가 손자·손녀에게 바로 주는 경우입니다. 이 경우 세금이 30% 더 붙습니다.
+       <strong>다만 손자의 부모(증여자의 자녀)가 이미 돌아가셨다면 더 붙지 않습니다.</strong></p>
+    <label class="field" id="skipExemptField" hidden>
+      <span class="lab">그 사이 세대(증여자의 자녀)가 돌아가셨나요</span>
+      <span class="yn" id="skipExemptYn"></span>
+    </label>
+  </section>
+
+  <section class="card" id="mbCard" hidden>
+    <h2><span class="step">4.</span>결혼이나 출산으로 받은 것인가요</h2>
+    <label class="field">
+      <span class="lab">그 중 결혼·출산으로 받은 금액</span>
+      <input id="marriageBirth" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="mbReadback"></div>
+      <p class="hint">결혼은 <strong>혼인신고일 전후 2년 안</strong>, 출산은 <strong>아이가 태어나거나
+         입양한 날부터 2년 안</strong>에 받은 것이어야 합니다.
+         결혼과 출산을 합쳐 <strong>최대 1억원</strong>까지만 빼줍니다. 없으면 0으로 두세요.</p>
+    </label>
+  </section>
+
+  <section class="card">
+    <h2><span class="step" id="stepDebt">5.</span>빚도 함께 넘겨받았나요</h2>
+    <label class="field">
+      <span class="lab">함께 넘겨받은 빚</span>
+      <input id="debtAmount" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="debtReadback"></div>
+      <p class="hint">받은 재산에 걸려 있던 대출이나 전세보증금을 <strong>대신 갚기로 한</strong> 경우입니다.
+         없으면 0으로 두세요.</p>
+    </label>
+    <label class="field" id="debtProvenField" hidden>
+      <span class="lab">그 빚을 넘겨받은 것을 서류로 보일 수 있나요</span>
+      <span class="yn" id="debtProvenYn"></span>
+      <p class="hint">가족끼리 주고받은 경우에는 <strong>서류가 있어야만</strong> 빚을 빼줍니다.
+         은행 채무는 은행 확인서, 그 밖에는 차용증·이자 낸 기록 같은 것이 필요합니다.</p>
+    </label>
+  </section>
+
+  <section class="card">
+    <h2><span class="step" id="stepPrior">6.</span>지난 10년 안에 같은 분께 받은 적이 있나요</h2>
+    <label class="field">
+      <span class="lab">지난 10년 안에 받은 금액</span>
+      <input id="priorGift" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="priorReadback"></div>
+      <p class="hint" id="priorHint">없으면 0으로 두세요.</p>
+    </label>
+    <label class="field" id="priorTaxField" hidden>
+      <span class="lab">그때 낸 증여세</span>
+      <input id="priorTax" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="priorTaxReadback"></div>
+      <p class="hint">모르면 0으로 두셔도 됩니다. 다만 그러면 <strong>세금이 실제보다 많게</strong> 나옵니다.</p>
+    </label>
+    <label class="field" id="priorSurchargeField" hidden>
+      <span class="lab">그때 낸 세금 중 할증으로 더 낸 부분</span>
+      <input id="priorSurcharge" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="priorSurchargeReadback"></div>
+      <p class="hint">조부모가 손자·손녀에게 준 증여를 지난 10년 안에도 했다면,
+         그때 더 붙었던 할증분입니다. 모르면 0으로 두셔도 되지만
+         <strong>세금이 실제보다 많게</strong> 나옵니다.</p>
+    </label>
+    <label class="field">
+      <span class="lab">지난 10년 안에 이미 공제받은 금액</span>
+      <input id="priorDeduction" class="money" type="text" inputmode="numeric" autocomplete="off" value="0">
+      <div class="readback" id="priorDedReadback"></div>
+      <p class="hint">앞서 증여받을 때 세금에서 빼주는 한도를 이미 쓴 금액입니다. 없으면 0으로 두세요.</p>
+    </label>
+  </section>
+
+  <div class="result">
+    <h2>계산 결과</h2>
+    <div id="resultBody"></div>
+  </div>
+
+  <a class="other-tool" href="/longtermcare/">
+    <strong>장기요양 본인부담금 계산기 →</strong>
+    <div class="hint">부모님 요양이 시작됐다면 월 본인부담금을 미리 가늠해 보세요.</div>
+  </a>
+
+  <footer>
+    <nav class="sitenav">
+      <a href="/">홈</a>
+      <a href="/longtermcare/">장기요양 계산기</a>
+      <a href="/silup/">실업급여 계산기</a>
+      <a href="/gift/">증여세 계산기</a>
+      <a href="/about/">소개</a>
+      <a href="/privacy/">개인정보처리방침</a>
+      <a href="/contact/">문의</a>
+    </nav>
+    <p><strong>이 계산기는 참고용 추정치입니다.</strong> 실제 세액은 재산 평가와 개인 사정에 따라
+       달라집니다. 신고 전에 국세청 상담센터(<strong>126</strong>)나 세무 전문가에게 확인하세요.</p>
+    <ul>
+      <li>기준일 <strong>2026년 9월 2일</strong> · 법령 원문 확인일 2026년 9월 2일</li>
+      <li><strong>받는 분이 국내 거주자</strong>이고 일반 세율이 적용되는 증여만 계산합니다.
+          비거주자, 창업자금·가업승계 특례는 다루지 않습니다.</li>
+      <li><strong>재산이 얼마인지는 계산하지 않습니다.</strong> 집·주식의 평가는 따로 해야 합니다.</li>
+      <li><strong>빚을 함께 넘겨받으면 세금이 두 가지 더 생깁니다.</strong>
+          준 사람에게 양도소득세, 받은 사람에게 취득세입니다. 여기서는 계산하지 않습니다.</li>
+      <li>가산세, 나눠 내기(분납·연부연납), 재해로 잃은 재산 공제, 외국에서 낸 세금 공제는
+          다루지 않습니다.</li>
+    </ul>
+    <p>근거:</p>
+    <ul id="sourceList"></ul>
+  </footer>
+</div>
+<script src="data.js"></script>
+<script src="calc.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
