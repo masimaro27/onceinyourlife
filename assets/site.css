@@ -63,8 +63,9 @@ section.prose ul, section.prose ol {
 section.prose li { margin-bottom: 6px; }
 section.prose a { color: var(--accent); word-break: break-word; }
 
-nav.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 12px; font-size: var(--fs-sm); }
-nav.crumb a { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); }
+nav.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; margin-bottom: 12px; font-size: var(--fs-sm); }
+nav.crumb a { color: var(--accent); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); padding: 0 6px; }
+nav.crumb span { padding: 0 2px; }
 nav.crumb span { color: var(--sub); }
 
 /* ── v2 (2026-09-13) ─────────────────────────────────────────── */

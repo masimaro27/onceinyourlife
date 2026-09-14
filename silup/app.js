@@ -221,4 +221,17 @@
   renderPeriods();
   renderSources();
   recompute();
+
+  // 입력 중에는 하단 요약 바를 숨긴다 — 모바일 키보드 위에 떠서 폼을 가리는 문제
+  document.addEventListener('focusin', function (e) {
+    var st = el('stickyResult');
+    if (st && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) st.style.display = 'none';
+  });
+  document.addEventListener('focusout', function () {
+    var st = el('stickyResult');
+    if (st) setTimeout(function () {
+      var a = document.activeElement;
+      if (!a || (a.tagName !== 'INPUT' && a.tagName !== 'SELECT')) st.style.display = '';
+    }, 120);
+  });
 })();
