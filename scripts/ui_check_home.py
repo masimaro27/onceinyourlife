@@ -2,6 +2,7 @@
 # 루트 상대 경로(/assets/site.css)를 쓰므로 file:// 이 아니라 로컬 HTTP 서버로 띄워 검사한다.
 # python3 scripts/ui_check_pages.py
 import functools
+import re
 import http.server
 import pathlib, re
 import socketserver
@@ -49,6 +50,7 @@ with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
         for path in PAGES:
             errors = []
             page = browser.new_page(viewport={"width": MOBILE, "height": 840})
+            page.route(re.compile(r"^https?://(?!127[.]0[.]0[.]1)"), lambda r: r.fulfill(status=200, content_type="text/css", body=""))  # 외부(폰트)를 빈 응답으로 — 속도·결정성, 콘솔 에러 없이
             page.on("pageerror", lambda e: errors.append(str(e)))
             page.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
             resp = page.goto(base + path, wait_until="networkidle")
@@ -88,6 +90,7 @@ with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
 
         # 양성 대조군 — 넘침 탐지기가 실제로 동작하는지 증명
         probe = browser.new_page(viewport={"width": MOBILE, "height": 400})
+        probe.route(re.compile(r"^https?://(?!127[.]0[.]0[.]1)"), lambda r: r.fulfill(status=200, content_type="text/css", body=""))  # 외부(폰트)를 빈 응답으로 — 속도·결정성, 콘솔 에러 없이
         probe.set_content("<div style='width:2000px'>overflow probe</div>")
         probe_overflow = probe.evaluate(
             "document.documentElement.scrollWidth - document.documentElement.clientWidth")

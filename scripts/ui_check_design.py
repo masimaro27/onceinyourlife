@@ -69,11 +69,15 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
     port = httpd.server_address[1]
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{port}"
+    def harden(ctx):
+        """외부 요청 차단 — 로컬 서버만 허용. 속도와 결정성을 함께 얻는다"""
+        ctx.route(re.compile(r"^https?://(?!127\.0\.0\.1)"), lambda r: r.abort())
+        return ctx
     with sync_playwright() as p:
         b = p.chromium.launch()
         if mode in ("light", "dark"):
-            ctx = b.new_context(viewport={"width": 1280, "height": 900},
-                                color_scheme=("dark" if mode == "dark" else "light"))
+            ctx = harden(b.new_context(viewport={"width": 1280, "height": 900},
+                                color_scheme=("dark" if mode == "dark" else "light")))
             if mode == "dark":
                 pg = ctx.new_page(); pg.goto(base + "/", wait_until="networkidle")
                 bgc = pg.evaluate("getComputedStyle(document.body).backgroundColor")
@@ -96,7 +100,7 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
             ctx.close()
         elif mode == "figfit":
             # 도해 글자가 viewBox를 벗어나면 렌더에서 잘린다 — 2026-09-13 실제로 잘렸다
-            ctx = b.new_context(viewport={"width": 800, "height": 900})
+            ctx = harden(b.new_context(viewport={"width": 800, "height": 900}))
             for path in PAGES:
                 pg = ctx.new_page(); pg.goto(base + path, wait_until="networkidle")
                 for v in pg.evaluate("""(() => {
@@ -127,7 +131,7 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
             pg.close(); ctx.close()
             label = "fig fit"
         elif mode == "tap":
-            ctx = b.new_context(viewport={"width": 390, "height": 844})
+            ctx = harden(b.new_context(viewport={"width": 390, "height": 844}))
             for path in PAGES:
                 pg = ctx.new_page(); pg.goto(base + path, wait_until="networkidle")
                 for o in pg.evaluate(TAP):
@@ -140,7 +144,7 @@ with socketserver.TCPServer(("127.0.0.1", 0), functools.partial(Q, directory=str
                 failures.append("내부 오류: 터치타깃 탐지기가 10×10px를 잡지 못함")
             pg.close(); ctx.close()
         elif mode == "measure":
-            ctx = b.new_context(viewport={"width": 1280, "height": 900})
+            ctx = harden(b.new_context(viewport={"width": 1280, "height": 900}))
             for path in PAGES:
                 pg = ctx.new_page(); pg.goto(base + path, wait_until="networkidle")
                 v = pg.evaluate(MEASURE)
