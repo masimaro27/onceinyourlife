@@ -69,6 +69,7 @@
       b.type = 'button';
       b.textContent = g.label;
       b.className = state.ageGroup === g.id ? 'on' : '';
+      b.setAttribute('aria-pressed', state.ageGroup === g.id ? 'true' : 'false');
       b.addEventListener('click', function () {
         state.ageGroup = g.id;
         renderAges();
@@ -134,6 +135,7 @@
           ' 구간만 지원합니다. 그 밖의 시기는 최저임금·상한액이 달라 고용센터에 확인하세요.'
         : '이직일과 급여를 확인해 주세요.';
       body.innerHTML = '<p class="hint" style="color:var(--warn)">' + msg + '</p>';
+      var sve = el('stickyVal'); if (sve) sve.textContent = '—';
       el('earlyBody').innerHTML = '';
       return;
     }
@@ -176,6 +178,7 @@
     }
 
     body.innerHTML = html;
+    var sv = el('stickyVal'); if (sv) sv.textContent = won(r.total);
     renderEarly(r);
   }
 

@@ -34,6 +34,7 @@
       b.type = 'button';
       b.textContent = g.label;
       b.className = state.grade === g.id ? 'on' : '';
+      b.setAttribute('aria-pressed', state.grade === g.id ? 'true' : 'false');
       b.addEventListener('click', function () {
         state.grade = g.id;
         renderGrades();
@@ -173,6 +174,8 @@
     state.mode = mode;
     el('tabHome').className = mode === 'home' ? 'on' : '';
     el('tabFacility').className = mode === 'facility' ? 'on' : '';
+    el('tabHome').setAttribute('aria-pressed', mode === 'home' ? 'true' : 'false');
+    el('tabFacility').setAttribute('aria-pressed', mode === 'facility' ? 'true' : 'false');
     el('homePanel').hidden = mode !== 'home';
     el('facilityPanel').hidden = mode !== 'facility';
     recompute();
@@ -187,6 +190,7 @@
     } catch (e) {
       body.innerHTML = '<p class="hint">이 조합은 계산할 수 없습니다. ' +
         '등급과 서비스 선택을 확인해 주세요.</p>';
+      var sve = el('stickyVal'); if (sve) sve.textContent = '—';
     }
   }
 
@@ -203,6 +207,7 @@
     if (items.length === 0) {
       body.innerHTML = '<p class="hint">이용할 서비스의 월 횟수를 입력하면 결과가 나옵니다. ' +
         '이 등급의 재가급여 월 한도액은 <strong>' + won(r.limit) + '</strong>입니다.</p>';
+      var sve = el('stickyVal'); if (sve) sve.textContent = '—';
       return;
     }
 
@@ -225,6 +230,7 @@
       if (WARN_TEXT[w]) html += '<div class="warn-box">' + WARN_TEXT[w] + '</div>';
     });
     body.innerHTML = html;
+    var sv = el('stickyVal'); if (sv) sv.textContent = won(r.copay);
   }
 
   function renderFacilityResult(body) {
@@ -232,6 +238,7 @@
     if (!Object.prototype.hasOwnProperty.call(f.price, state.grade)) {
       body.innerHTML = '<p class="hint" style="color:var(--warn)">인지지원등급은 시설급여 ' +
         '수가가 고시표에 없어 계산할 수 없습니다.</p>';
+      var sve = el('stickyVal'); if (sve) sve.textContent = '—';
       return;
     }
     var r = CALC.calcFacility(state.grade, state.facility, state.facilityDays, state.burden);
@@ -243,6 +250,7 @@
     html += '<div class="rline copay"><span>본인부담 (월)</span><span class="val money-hero">' + won(r.copay) + '</span></div>';
     html += '<div class="warn-box">' + WARN_TEXT.facilityNonCovered + '</div>';
     body.innerHTML = html;
+    var sv = el('stickyVal'); if (sv) sv.textContent = won(r.copay);
   }
 
   // ---- 출처 ----

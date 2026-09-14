@@ -126,3 +126,55 @@ h1, h2, .serif { font-family: var(--serif); letter-spacing: -0.01em; }
 @media (max-width: 620px) { .principles-band .cols { grid-template-columns: 1fr; } }
 .principles-band .cols span { color: var(--sub); }
 .ccard .basis { font-size: var(--fs-xs); color: var(--sub); margin-top: 8px; }
+
+/* ── v2f 리뷰 잔여 반영 (2026-09-14) ─────────────────────────── */
+
+/* 한국어 줄바꿈 — 단어 중간 꺾임 방지 (모바일 히어로 "계/산해" 실측 후) */
+body { word-break: keep-all; overflow-wrap: break-word; }
+
+/* 앵커 이동 부드럽게 — 움직임 줄이기 설정은 존중 */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* 새 탭으로 나가는 링크 표시 — 예고 없는 이탈 방지 */
+a[target="_blank"]::after { content: " ↗"; font-size: var(--fs-xs); }
+
+/* 본문 바로가기 — 키보드 이용자용. 평소엔 화면 밖, 포커스 시 등장 */
+.skip-link {
+  position: fixed; top: -80px; left: 16px; z-index: 50;
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  padding: 0 16px; border-radius: 8px;
+  background: var(--accent); color: var(--accent-ink);
+  font-size: var(--fs-sm); font-weight: 700; text-decoration: none;
+  transition: top 0.15s;
+}
+.skip-link:focus-visible { top: 12px; }
+
+/* 근거 스탬프 — 기준·확인일을 각주가 아니라 구조 장치로 */
+.basis-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 5px 10px; margin-top: 12px;
+  font-size: var(--fs-xs); color: var(--sub); background: var(--card);
+}
+
+/* 홈 카드 2단 위계 — 계산기·가이드가 있는 카드와 링크뿐인 카드를 구분 */
+.ccard-lite { border-top-width: 1px; padding: 16px 18px 14px; gap: 7px; }
+.ccard-lite h3 { font-size: var(--fs-h3); }
+
+/* 내부 페이지 갈래 좌표 — 카드 상단 3px 선을 본문 헤더에도 */
+.wrap > header { border-top: 3px solid var(--accent); padding-top: 16px; }
+
+/* 표 가로 스크롤 힌트 — 끝에 닿으면 사라지는 가장자리 그림자
+   (배경 부착 트릭: 내용과 함께 움직이는 커버가 고정 그림자를 덮는다) */
+.tbl-scroll {
+  background:
+    linear-gradient(to right, var(--bg) 30%, transparent),
+    linear-gradient(to left,  var(--bg) 30%, transparent) 100% 0,
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 18%, transparent), transparent),
+    linear-gradient(to left,  color-mix(in srgb, var(--ink) 18%, transparent), transparent) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 12px 100%, 12px 100%;
+  background-attachment: local, local, scroll, scroll;
+}

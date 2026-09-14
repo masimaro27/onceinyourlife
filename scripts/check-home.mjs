@@ -40,7 +40,7 @@ for (const [, inner] of cards) {
   if (!/class="desc"/.test(inner)) fail('갈래 카드에 설명 없음');
   if (/class="pill-tool"/.test(inner)) {
     toolCards++;
-    if (!/class="basis"/.test(inner)) fail('계산기 카드에 기준 표기 없음');
+    if (!/class="basis[\s"]/.test(inner)) fail('계산기 카드에 기준 표기 없음');
   }
 }
 if (toolCards < 2) fail(`계산기 카드가 2개 미만: ${toolCards}`);

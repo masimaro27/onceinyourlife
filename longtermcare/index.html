@@ -54,6 +54,25 @@
   }
   .svc select { flex: 1 1 200px; min-width: 0; }
   .svc input[type=number] { width: 90px; }
+  /* 모바일 하단 고정 결과 요약 — 입력을 고치는 동안 결과가 화면 밖인 문제.
+     탭하면 결과 카드로 이동한다. 데스크톱에선 숨김 */
+  .sticky-result {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    background: var(--card); border-top: 1px solid var(--line);
+    padding: 6px 16px calc(6px + env(safe-area-inset-bottom));
+    text-decoration: none;
+    align-items: baseline; justify-content: space-between; gap: 10px;
+    min-height: var(--tap);
+  }
+  .sticky-result .sr-label { color: var(--sub); font-size: var(--fs-sm); }
+  .sticky-result .sr-val {
+    color: var(--ink); font-family: var(--serif); font-weight: 700;
+    font-size: var(--fs-h2); font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 620px) {
+    .sticky-result { display: flex; }
+    .wrap { padding-bottom: 96px; }
+  }
   .svc .unit-note, .hint { color: var(--sub); font-size: var(--fs-sm); margin-top: 4px; }
   .svc.disabled { opacity: .55; }
   .svc.disabled .why { color: var(--warn); font-size: var(--fs-sm); }
@@ -114,6 +133,7 @@
 </style>
 </head>
 <body class="cat-care">
+<a class="skip-link" href="#main">본문 바로가기</a>
 <header class="topbar">
   <nav class="tb-in">
     <a class="brand" href="/">살면서 한 번은 겪는 일</a>
@@ -125,7 +145,7 @@
   </nav>
 </header>
 
-<div class="wrap">
+<div class="wrap" id="main">
   <nav class="crumb"><a href="/">홈</a><span aria-hidden="true">›</span><span aria-current="page">장기요양 계산기</span></nav>
   <header>
     <h1>장기요양 본인부담금 계산기</h1>
@@ -174,6 +194,7 @@
   <section class="result" id="resultCard">
     <h2>계산 결과</h2>
     <div id="resultBody" aria-live="polite"></div>
+    <div class="basis-chip">2026년 1월 1일 고시 수가 기준</div>
   </section>
 
   <section class="card">
@@ -235,6 +256,7 @@
     <ul id="sourceList"></ul>
   </footer>
 </div>
+<a class="sticky-result" href="#resultCard" id="stickyResult"><span class="sr-label">본인부담 (월)</span><span class="sr-val" id="stickyVal">—</span></a>
 <script src="data.js"></script>
 <script src="calc.js"></script>
 <script src="app.js"></script>
